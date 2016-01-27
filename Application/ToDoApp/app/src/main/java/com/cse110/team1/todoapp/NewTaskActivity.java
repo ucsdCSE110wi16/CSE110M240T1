@@ -3,7 +3,8 @@ package com.cse110.team1.todoapp;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.SeekBar;
@@ -21,7 +22,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
  * -- Darren Eck
  */
 
-public class NewTaskActivity extends ActionBarActivity {
+public class NewTaskActivity extends AppCompatActivity {
     public static final String TASK_DESCRIPTION = "task_description";
     public static final String TASK_DETAILS = "task_details";
     public static final String TASK_PROGRESS = "task_progress";
@@ -39,6 +40,10 @@ public class NewTaskActivity extends ActionBarActivity {
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+
+        // Setup toolbar
+        Toolbar toolbar = (Toolbar) findViewById(R.id.new_task_toolbar);
+        setSupportActionBar(toolbar);
     }
 
 
