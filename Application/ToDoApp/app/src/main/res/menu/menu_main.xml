@@ -1,6 +1,24 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
-    <item android:id="@+id/action_settings" android:title="@string/action_settings"
-        android:orderInCategory="100" app:showAsAction="never" />
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainActivity">
+    <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="100"
+        android:title="@string/action_settings"
+        app:showAsAction="never" />
+
+    <!-- Menu button to create a new task -->
+    <item
+        android:id="@+id/action_new_task"
+        android:icon="@drawable/ic_add_circle_outline_black_24dp"
+        android:title="@string/action_new_task"
+        app:showAsAction="ifRoom" />
+
+    <!-- Menu button to delete all tasks -->
+    <item
+        android:id="@+id/action_delete_all_tasks"
+        android:icon="@drawable/ic_delete_black_24dp"
+        android:title="@string/action_delete_all_tasks"
+        app:showAsAction="ifRoom" />
 </menu>

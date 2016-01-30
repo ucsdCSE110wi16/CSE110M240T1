@@ -21,17 +21,4 @@
         android:layout_height="match_parent"
         android:layout_below="@id/main_toolbar"/>
 
-    <Button
-        android:id="@+id/new_task_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginBottom="@dimen/activity_vertical_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:background="#40D00000"
-        android:onClick="createTask"
-        android:text="@string/new_task_button"
-        android:textSize="50sp" />
-
 </RelativeLayout>
