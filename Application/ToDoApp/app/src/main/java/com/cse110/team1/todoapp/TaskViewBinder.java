@@ -1,6 +1,8 @@
 package com.cse110.team1.todoapp;
 
 import android.database.Cursor;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.SimpleCursorAdapter;
@@ -39,6 +41,12 @@ public class TaskViewBinder implements SimpleCursorAdapter.ViewBinder {
             // that this ViewBinder is used for.  This will have to change if more integers are
             // added to the task table.
             ((ProgressBar) view).setProgress(value);
+
+            // Change progress bar color to GREEN if its value is the max bar value
+            if (value == ((ProgressBar) view).getMax()) {
+                ((ProgressBar) view).getProgressDrawable().setColorFilter(Color.GREEN,
+                        PorterDuff.Mode.SRC_IN);
+            }
 
             returnValue = true;
         }

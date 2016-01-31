@@ -3,23 +3,28 @@ package com.cse110.team1.todoapp;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends AppCompatActivity {
 
     public static final int CREATE_TASK_REQUEST = 1;
 
     private DatabaseHelper dbHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // setup toolbar
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.main_toolbar);
+        setSupportActionBar(myToolbar);
 
         // Set up database
         dbHelper = new DatabaseHelper(this);
@@ -35,36 +40,36 @@ public class MainActivity extends ActionBarActivity {
         return true;
     }
 
+
+    // Method to handle menu selections on the app bar
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()) {
+
+            case R.id.action_settings:
+                // TODO: Implement actual settings and bind to action
+                return true;
+
+            case R.id.action_new_task:
+                createTask();
+                return true;
+
+            case R.id.action_delete_all_tasks:
+                dbHelper.remakeTaskTable();
+                populateTaskList();
+                return true;
+
+            default:
+                // None of our actions were initiated, refer to super class
+                return super.onOptionsItemSelected(item);
         }
-
-        return super.onOptionsItemSelected(item);
     }
 
-
-
-    /*
-     * Create Task button, used to initiate the activity to enter details for a new task.
-     *
-     * Oddly enough, in the onActivityResult(..) method,  resultCode holds the request code,
-     * and requestCode holds the status of the result, which seems to be opposite of what all
-     * documentation I could find said... but hey, after inspecting the values manually, they
-     * looked reversed, so I swapped them and everything seems to work fine now. --Darren
-     */
-    public void createTask(View view) {
-        Intent intent = new Intent(this, NewTaskActivity.class);
-        startActivityForResult(intent, CREATE_TASK_REQUEST);
-    }
-
+    // Method to handle data returned from a finished activity started by this activity
     @Override
     protected void onActivityResult(int resultCode, int requestCode, Intent data) {
         if (resultCode == CREATE_TASK_REQUEST) {
@@ -82,6 +87,22 @@ public class MainActivity extends ActionBarActivity {
             }
         }
     }
+
+
+
+    /*
+     * Create Task method, used to initiate the activity to enter details for a new task.
+     *
+     * Oddly enough, in the onActivityResult(..) method,  resultCode holds the request code,
+     * and requestCode holds the status of the result, which seems to be opposite of what all
+     * documentation I could find said... but hey, after inspecting the values manually, they
+     * looked reversed, so I swapped them and everything seems to work fine now. --Darren
+     */
+    public void createTask() {
+        Intent intent = new Intent(this, NewTaskActivity.class);
+        startActivityForResult(intent, CREATE_TASK_REQUEST);
+    }
+
 
     private void populateTaskList() {
         Cursor cursor = dbHelper.fetchAllTasks();
