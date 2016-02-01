@@ -9,7 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import java.util.ArrayList;
 
 /**
- * Created by darreneck on 1/25/16.
+ * Created by team1 on 1/25/16.
  *
  * The purpose of this class is to encapsulate and separate the basic Database operations from the
  * activity, in order to keep coupling loose.  In this manner, it should be possible to change
@@ -32,6 +32,14 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     public static final String TASK_COLUMN_COMPLETED_TIME = "completed";
     public static final String TASK_COLUMN_PERCENT = "percent";
     public static final String TASK_COLUMN_DONE = "done";
+
+    public static final String NOTEBOOK_TABLE_NAME = "notes";
+    public static final String NOTEBOOK_COLUMN_ID = "_id";
+    public static final String NOTEBOOK_COLUMN_DESCRIPTION = "description";
+    public static final String NOTEBOOK_COLUMN_TITLE = "title";
+    public static final String NOTEBOOK_COLUMN_CREATED_TIME = "dateCreated";
+
+
     //TODO: Add table for Notebook Notes
 
 
@@ -42,6 +50,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     @Override
     public void onCreate(SQLiteDatabase db){
+        //Task table
         db.execSQL("create table " + TASK_TABLE_NAME + " (" +
                         TASK_COLUMN_ID + " integer primary key, " +
                         TASK_COLUMN_NAME + " text, " +
@@ -52,6 +61,18 @@ public class DatabaseHelper extends SQLiteOpenHelper{
                         TASK_COLUMN_PERCENT + "integer, " +
                         TASK_COLUMN_DONE + " boolean)"
         );
+        //Notebook table
+        // db.execSQL("create table " + TASK_TABLE_NAME + " (" +
+        //                 TASK_COLUMN_ID + " integer primary key, " +
+        //                 TASK_COLUMN_NAME + " text, " +
+        //                 TASK_COLUMN_DETAILS + "text, " +
+        //                 TASK_COLUMN_CREATED_TIME + " text, " +
+        //                 TASK_COLUMN_DUE_TIME + " text, " +
+        //                 TASK_COLUMN_COMPLETED_TIME + " text, " +
+        //                 TASK_COLUMN_PERCENT + "integer, " +
+        //                 TASK_COLUMN_DONE + " boolean)"
+        // );
+
     }
 
     @Override
