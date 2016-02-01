@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Set up database
         dbHelper = new DatabaseHelper(this);
-        //dbHelper.remakeTaskTable();
+        dbHelper.remakeTaskTable();
         populateTaskList();
     }
 
@@ -83,7 +83,6 @@ public class MainActivity extends AppCompatActivity {
                         false);
 
                 // update list of tasks
-                populateTaskList();
             }
         }
     }
