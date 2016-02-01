@@ -66,6 +66,14 @@ public class NewTaskActivity extends AppCompatActivity {
         result.putExtra(TASK_DETAILS, detailBox.getText().toString());
         result.putExtra(TASK_PROGRESS, sbar.getProgress());
         setResult(RESULT_OK, result);
+
+        //add to table
+        DatabaseHelper dbHelper = new DatabaseHelper(this);
+        dbHelper.insertTask(result.getExtras().getString(NewTaskActivity.TASK_DESCRIPTION),
+                result.getExtras().getString(NewTaskActivity.TASK_DETAILS),
+                null, null, null,
+                result.getExtras().getInt(NewTaskActivity.TASK_PROGRESS),
+                false);
         finish();
     }
 

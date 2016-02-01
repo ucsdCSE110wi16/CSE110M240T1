@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Set up database
         dbHelper = new DatabaseHelper(this);
-        dbHelper.remakeTaskTable();
+        //dbHelper.remakeTaskTable();
         populateTaskList();
     }
 
@@ -75,14 +75,8 @@ public class MainActivity extends AppCompatActivity {
         if (resultCode == CREATE_TASK_REQUEST) {
 
             if (requestCode == RESULT_OK) {
-                // add newly created task to database
-                dbHelper.insertTask(data.getExtras().getString(NewTaskActivity.TASK_DESCRIPTION),
-                        data.getExtras().getString(NewTaskActivity.TASK_DETAILS),
-                        null, null, null,
-                        data.getExtras().getInt(NewTaskActivity.TASK_PROGRESS),
-                        false);
-
                 // update list of tasks
+                populateTaskList();
             }
         }
     }
