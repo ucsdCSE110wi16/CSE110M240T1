@@ -67,13 +67,18 @@ public class NewTaskActivity extends AppCompatActivity {
         EditText nameBox = (EditText) findViewById(R.id.task_field);
         EditText detailBox = (EditText) findViewById(R.id.detail_field);
         SeekBar sbar = (SeekBar) findViewById(R.id.progress_seek_bar);
+
+        // Create an intent to attach when this activity finishes.  The new task entry is still
+        // added in this activity, but the intent remains in case MainActivity wants it.  Also,
+        // this activity is launched with startActivityForResult anyway because MainActivity needs
+        // to know when to refresh the ListView
         Intent result = new Intent();
         result.putExtra(TASK_DESCRIPTION, nameBox.getText().toString());
         result.putExtra(TASK_DETAILS, detailBox.getText().toString());
         result.putExtra(TASK_PROGRESS, sbar.getProgress());
         setResult(RESULT_OK, result);
 
-        //add to table
+        // add new entry to table
         DatabaseHelper dbHelper = new DatabaseHelper(this);
         dbHelper.insertTask(result.getExtras().getString(NewTaskActivity.TASK_DESCRIPTION),
                 result.getExtras().getString(NewTaskActivity.TASK_DETAILS),
