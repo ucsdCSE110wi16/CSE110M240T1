@@ -34,7 +34,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/new_task_hint"
-                android:inputType="textCapSentences" />
+                android:inputType="textCapSentences"
+                android:textColor= "@color/new_task_text"/>
 
             <EditText
                 android:id="@+id/detail_field"
@@ -42,7 +43,8 @@
                 android:layout_height="wrap_content"
                 android:gravity="top"
                 android:hint="@string/details_hint"
-                android:lines="3" />
+                android:lines="3"
+                android:textColor="@color/new_task_text"/>
 
             <LinearLayout
                 android:layout_width="match_parent"

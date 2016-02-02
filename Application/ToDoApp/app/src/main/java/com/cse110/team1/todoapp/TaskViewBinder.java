@@ -44,7 +44,7 @@ public class TaskViewBinder implements SimpleCursorAdapter.ViewBinder {
 
             // Change progress bar color to GREEN if its value is the max bar value
             if (value == ((ProgressBar) view).getMax()) {
-                ((ProgressBar) view).getProgressDrawable().setColorFilter(Color.GREEN,
+                ((ProgressBar) view).getProgressDrawable().setColorFilter(Color.rgb(67,160,71),
                         PorterDuff.Mode.SRC_IN);
             }
 
