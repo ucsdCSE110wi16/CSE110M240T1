@@ -1,5 +1,6 @@
 package com.cse110.team1.todoapp;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -8,12 +9,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.SeekBar;
+import android.widget.TextView;
 
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
+
+import java.util.Calendar;
 
 /*
  * NewTaskActivity class:
@@ -86,6 +91,24 @@ public class NewTaskActivity extends AppCompatActivity {
                 result.getExtras().getInt(NewTaskActivity.TASK_PROGRESS),
                 false);
         finish();
+    }
+
+    // promptDate: Called when user clicks Set Due Date button
+    // DatePickerDialog.OnDateSetListener determines behavior when date picker fragment is finished
+    DatePickerDialog.OnDateSetListener odsl = new DatePickerDialog.OnDateSetListener() {
+        @Override
+        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+            TextView tv = (TextView) findViewById(R.id.due_date_view);
+            String date = String.format(getResources().getString((R.string.date_format)),
+                    monthOfYear, dayOfMonth, year);
+            tv.setText(date);
+        }
+    };
+    public void promptDate(View view) {
+        Calendar cal = Calendar.getInstance();
+        DatePickerDialog dateDialog = new DatePickerDialog(this, odsl, cal.get(Calendar.YEAR),
+                cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
+        dateDialog.show();
     }
 
     @Override

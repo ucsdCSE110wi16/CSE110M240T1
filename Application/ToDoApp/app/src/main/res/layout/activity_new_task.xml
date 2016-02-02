@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context="com.cse110.team1.todoapp.NewTaskActivity">
 
@@ -14,7 +14,7 @@
         android:background="?attr/colorPrimary"
         android:elevation="4dp"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
 
     <ScrollView
@@ -35,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/new_task_hint"
                 android:inputType="textCapSentences"
-                android:textColor= "@color/new_task_text"/>
+                android:textColor="@color/new_task_text" />
 
             <EditText
                 android:id="@+id/detail_field"
@@ -44,7 +44,7 @@
                 android:gravity="top"
                 android:hint="@string/details_hint"
                 android:lines="3"
-                android:textColor="@color/new_task_text"/>
+                android:textColor="@color/new_task_text" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -57,7 +57,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/progress_meter_text"
-                    android:textSize="@dimen/progress_bar_font_size" />
+                    android:textSize="@dimen/new_task_font_size" />
 
                 <SeekBar
                     android:id="@+id/progress_seek_bar"
@@ -67,6 +67,28 @@
                     android:progress="0" />
 
             </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/date_button"
+                    android:onClick="promptDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/due_date_button" />
+
+                <TextView
+                    android:id="@+id/due_date_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:textSize="@dimen/new_task_font_size"
+                    android:text="Not Set"/>
+
+            </RelativeLayout>
 
             <Button
                 android:layout_width="match_parent"
