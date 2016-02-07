@@ -4,5 +4,6 @@
     <color name="color_primary_dark">#0288D1</color>
     <color name="menu_text">#FFFFFFFF</color>
     <color name="new_task_text">#000000</color>
+    <color name="tabsScrollColor">#FFFFFF</color>
 
 </resources>

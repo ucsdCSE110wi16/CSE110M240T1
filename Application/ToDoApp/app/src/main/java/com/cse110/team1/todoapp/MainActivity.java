@@ -1,6 +1,7 @@
 package com.cse110.team1.todoapp;
 
 import android.content.Intent;
+import android.support.v4.view.ViewPager;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -9,13 +10,20 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
+import android.support.v7.app.ActionBarActivity;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
 
     public static final int CREATE_TASK_REQUEST = 1;
 
     private DatabaseHelper dbHelper;
+
+    ViewPager pager;
+    ViewPageAdapter adapter;
+    SlidingTabLayout tabs;
+    CharSequence Titles[]={"Tasks","Notes", "Performace"};
+    int Numboftabs =3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,10 +34,34 @@ public class MainActivity extends AppCompatActivity {
         Toolbar myToolbar = (Toolbar) findViewById(R.id.main_toolbar);
         setSupportActionBar(myToolbar);
 
+        // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
+        adapter =  new ViewPageAdapter(getSupportFragmentManager(),Titles,Numboftabs);
+
+        // Assigning ViewPager View and setting the adapter
+        pager = (ViewPager) findViewById(R.id.pager);
+        pager.setAdapter(adapter);
+
+        // Assiging the Sliding Tab Layout View
+        tabs = (SlidingTabLayout) findViewById(R.id.tabs);
+        tabs.setDistributeEvenly(true); // To make the Tabs Fixed set this true, This makes the tabs Space Evenly in Available width
+
+        // Setting Custom Color for the Scroll bar indicator of the Tab View
+        tabs.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
+            @Override
+            public int getIndicatorColor(int position) {
+                return getResources().getColor(R.color.tabsScrollColor);
+            }
+        });
+
+        // Setting the ViewPager For the SlidingTabsLayout
+        tabs.setViewPager(pager);
+
+
+
         // Set up database
         dbHelper = new DatabaseHelper(this);
-        //dbHelper.remakeTaskTable();
-        populateTaskList();
+        dbHelper.remakeTaskTable();
+//        populateTaskList();
     }
 
 
@@ -70,16 +102,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // Method to handle data returned from a finished activity started by this activity
-    @Override
-    protected void onActivityResult(int resultCode, int requestCode, Intent data) {
-        if (resultCode == CREATE_TASK_REQUEST) {
-
-            if (requestCode == RESULT_OK) {
-                // update list of tasks
-                populateTaskList();
-            }
-        }
-    }
+//    @Override
+//    protected void onActivityResult(int resultCode, int requestCode, Intent data) {
+//        if (resultCode == CREATE_TASK_REQUEST) {
+//
+//            if (requestCode == RESULT_OK) {
+//                // update list of tasks
+//                populateTaskList();
+//            }
+//        }
+//    }
 
 
 
@@ -98,25 +130,25 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void populateTaskList() {
-        Cursor cursor = dbHelper.fetchAllTasks();
-
-        // columns used to populate list view elements
-        String[] columns = {DatabaseHelper.TASK_COLUMN_NAME,
-                DatabaseHelper.TASK_COLUMN_DETAILS,
-                DatabaseHelper.TASK_COLUMN_PERCENT};
-
-        // xml components to bind data to
-        int[] components = {R.id.description_view,
-                R.id.detail_view,
-                R.id.task_progress_bar};
-
-        // create cursor adapter to populate view elements and pass to the list view
-        SimpleCursorAdapter cadapter = new SimpleCursorAdapter(this, R.layout.task_list_info,
-                cursor, columns, components, 0);
-        // assign custom ViewBinder to handle binding to non TextBox views.
-        cadapter.setViewBinder(new TaskViewBinder());
-
-        ListView lview = (ListView) findViewById(R.id.task_list_view);
-        lview.setAdapter(cadapter);
+//        Cursor cursor = dbHelper.fetchAllTasks();
+//
+//        // columns used to populate list view elements
+//        String[] columns = {DatabaseHelper.TASK_COLUMN_NAME,
+//                DatabaseHelper.TASK_COLUMN_DETAILS,
+//                DatabaseHelper.TASK_COLUMN_PERCENT};
+//
+//        // xml components to bind data to
+//        int[] components = {R.id.description_view,
+//                R.id.detail_view,
+//                R.id.task_progress_bar};
+//
+//        // create cursor adapter to populate view elements and pass to the list view
+//        SimpleCursorAdapter cadapter = new SimpleCursorAdapter(this, R.layout.task_list_info,
+//                cursor, columns, components, 0);
+//        // assign custom ViewBinder to handle binding to non TextBox views.
+//        cadapter.setViewBinder(new TaskViewBinder());
+//
+//        ListView lview = (ListView) findViewById(R.id.task_list_view);
+//        lview.setAdapter(cadapter);
     }
 }
