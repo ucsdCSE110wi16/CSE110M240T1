@@ -1,16 +1,12 @@
 package com.cse110.team1.todoapp;
 
 import android.content.Intent;
-import android.support.v4.view.ViewPager;
-import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
-import android.support.v7.app.ActionBarActivity;
 
 
 public class MainActivity extends AppCompatActivity{
@@ -60,7 +56,7 @@ public class MainActivity extends AppCompatActivity{
 
         // Set up database
         dbHelper = new DatabaseHelper(this);
-        dbHelper.remakeTaskTable();
+//        dbHelper.remakeTaskTable();
 //        populateTaskList();
     }
 
@@ -92,7 +88,9 @@ public class MainActivity extends AppCompatActivity{
 
             case R.id.action_delete_all_tasks:
                 dbHelper.remakeTaskTable();
-                populateTaskList();
+                // TODO: we should maybe not hard code the getItem index
+                TasksFragment tf = (TasksFragment) adapter.getItem(1);
+                tf.populateTaskList();
                 return true;
 
             default:
@@ -102,16 +100,18 @@ public class MainActivity extends AppCompatActivity{
     }
 
     // Method to handle data returned from a finished activity started by this activity
-//    @Override
-//    protected void onActivityResult(int resultCode, int requestCode, Intent data) {
-//        if (resultCode == CREATE_TASK_REQUEST) {
-//
-//            if (requestCode == RESULT_OK) {
-//                // update list of tasks
-//                populateTaskList();
-//            }
-//        }
-//    }
+    @Override
+    protected void onActivityResult(int resultCode, int requestCode, Intent data) {
+        if (resultCode == CREATE_TASK_REQUEST) {
+
+            if (requestCode == RESULT_OK) {
+                // update list of tasks
+                // TODO: we should maybe not hard code the getItem index
+                TasksFragment tf = (TasksFragment) adapter.getItem(1);
+                tf.populateTaskList();
+            }
+        }
+    }
 
 
 
@@ -126,29 +126,5 @@ public class MainActivity extends AppCompatActivity{
     public void createTask() {
         Intent intent = new Intent(this, NewTaskActivity.class);
         startActivityForResult(intent, CREATE_TASK_REQUEST);
-    }
-
-
-    private void populateTaskList() {
-//        Cursor cursor = dbHelper.fetchAllTasks();
-//
-//        // columns used to populate list view elements
-//        String[] columns = {DatabaseHelper.TASK_COLUMN_NAME,
-//                DatabaseHelper.TASK_COLUMN_DETAILS,
-//                DatabaseHelper.TASK_COLUMN_PERCENT};
-//
-//        // xml components to bind data to
-//        int[] components = {R.id.description_view,
-//                R.id.detail_view,
-//                R.id.task_progress_bar};
-//
-//        // create cursor adapter to populate view elements and pass to the list view
-//        SimpleCursorAdapter cadapter = new SimpleCursorAdapter(this, R.layout.task_list_info,
-//                cursor, columns, components, 0);
-//        // assign custom ViewBinder to handle binding to non TextBox views.
-//        cadapter.setViewBinder(new TaskViewBinder());
-//
-//        ListView lview = (ListView) findViewById(R.id.task_list_view);
-//        lview.setAdapter(cadapter);
     }
 }

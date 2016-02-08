@@ -3,9 +3,9 @@ package com.cse110.team1.todoapp;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.support.v4.widget.SimpleCursorAdapter;
 import android.view.View;
 import android.widget.ProgressBar;
-import android.widget.SimpleCursorAdapter;
 
 /**
  * Created by darreneck on 1/26/16.
