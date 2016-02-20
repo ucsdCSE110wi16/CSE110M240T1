@@ -152,4 +152,18 @@ public class DatabaseHelper extends SQLiteOpenHelper{
                         TASK_COLUMN_DONE + " boolean)"
         );
     }
+
+    /*
+     * Get a single row from the task table
+     */
+    public Cursor getTaskById(long id) {
+        SQLiteDatabase db = getReadableDatabase();
+        String[] columns = {TASK_COLUMN_ID, TASK_COLUMN_NAME, TASK_COLUMN_DETAILS,
+                TASK_COLUMN_CREATED_TIME, TASK_COLUMN_DUE_TIME, TASK_COLUMN_COMPLETED_TIME,
+                TASK_COLUMN_PERCENT, TASK_COLUMN_DONE};
+        String[] args = {""+id};
+        Cursor cursor = db.query(TASK_TABLE_NAME, columns, TASK_COLUMN_ID + " = ?", args,
+                null, null, null);
+        return cursor;
+    }
 }
