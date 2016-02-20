@@ -13,7 +13,7 @@ public class MainActivity extends AppCompatActivity{
 
     public static final int CREATE_TASK_REQUEST = 1;
 
-    private DatabaseHelper dbHelper;
+    public DatabaseHelper dbHelper;
 
     ViewPager pager;
     ViewPageAdapter adapter;
@@ -88,8 +88,7 @@ public class MainActivity extends AppCompatActivity{
 
             case R.id.action_delete_all_tasks:
                 dbHelper.remakeTaskTable();
-                // TODO: we should maybe not hard code the getItem index
-                TasksFragment tf = (TasksFragment) adapter.getItem(1);
+                TasksFragment tf = (TasksFragment)adapter.getRegisteredFragment(pager.getCurrentItem());
                 tf.populateTaskList();
                 return true;
 
@@ -106,8 +105,7 @@ public class MainActivity extends AppCompatActivity{
 
             if (requestCode == RESULT_OK) {
                 // update list of tasks
-                // TODO: we should maybe not hard code the getItem index
-                TasksFragment tf = (TasksFragment) adapter.getItem(1);
+                TasksFragment tf = (TasksFragment) adapter.getRegisteredFragment(pager.getCurrentItem());
                 tf.populateTaskList();
             }
         }

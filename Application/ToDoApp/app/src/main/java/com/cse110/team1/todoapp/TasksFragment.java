@@ -29,7 +29,7 @@ public class TasksFragment extends Fragment{
     public void onAttach(Context context) {
         super.onAttach(context);
 
-        // access database and fill list view
+        // Access Database
         dbHelper = new DatabaseHelper(context);
     }
 
@@ -37,6 +37,7 @@ public class TasksFragment extends Fragment{
     public void onActivityCreated (Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        // Fill list view
         populateTaskList();
     }
 
