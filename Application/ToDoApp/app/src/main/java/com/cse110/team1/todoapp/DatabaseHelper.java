@@ -104,6 +104,9 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         return isSuccessful;
     }
 
+    /* Update Tasks */
+
+    public boolean updateTask()
 
     /*
      * Returns an ArrayList<String> of all descriptions of all tasks in the table.
