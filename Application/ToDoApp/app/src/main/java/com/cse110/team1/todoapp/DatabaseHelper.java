@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -45,7 +46,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     public DatabaseHelper(Context context)
     {
-        super(context, DATABASE_NAME , null, 1);
+        super(context, DATABASE_NAME, null, 1);
     }
 
     @Override
@@ -112,8 +113,14 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         contentValues.put(TASK_COLUMN_NAME, name);
         contentValues.put(TASK_COLUMN_DETAILS, details);
         contentValues.put(TASK_COLUMN_PERCENT, percent);
-        db.update(TASK_TABLE_NAME, contentValues, TASK_COLUMN_ID + " = " + taskId, null);
-        return true;
+        long returnid = db.update(TASK_TABLE_NAME, contentValues, TASK_COLUMN_ID + " = " + taskId, null);
+        boolean isSuccessful = true;
+        Log.d("HELLO1", name);
+        if (returnid == -1) {
+            Log.d("HELLO", "ddint wok");
+            isSuccessful = false;
+        }
+        return isSuccessful;
     }
 
     /*

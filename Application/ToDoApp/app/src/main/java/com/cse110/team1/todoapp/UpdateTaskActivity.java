@@ -50,9 +50,10 @@ public class UpdateTaskActivity extends AppCompatActivity {
 
 
 
-        // add new entry to table
+        // update entry to table
         DatabaseHelper dbHelper = new DatabaseHelper(this);
         dbHelper.updateTask(taskId, nameBox.getText().toString(), detailBox.getText().toString(), sbar.getProgress());
+        Log.d("HELLO", nameBox.getText().toString());
 
         finish();
     }
