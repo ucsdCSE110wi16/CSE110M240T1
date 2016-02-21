@@ -91,6 +91,7 @@ tools:context="com.cse110.team1.todoapp.UpdateTaskActivity">
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:onClick="updateTask"
             android:text="@string/save_task_button" />
 
 

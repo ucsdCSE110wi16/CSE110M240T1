@@ -106,7 +106,15 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     /* Update Tasks */
 
-    public boolean updateTask()
+    public boolean updateTask(long taskId, String name, String details, int percent){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(TASK_COLUMN_NAME, name);
+        contentValues.put(TASK_COLUMN_DETAILS, details);
+        contentValues.put(TASK_COLUMN_PERCENT, percent);
+        db.update(TASK_TABLE_NAME, contentValues, TASK_COLUMN_ID + " = " + taskId, null);
+        return true;
+    }
 
     /*
      * Returns an ArrayList<String> of all descriptions of all tasks in the table.
