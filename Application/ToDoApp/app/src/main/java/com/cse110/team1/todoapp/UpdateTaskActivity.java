@@ -58,4 +58,12 @@ public class UpdateTaskActivity extends AppCompatActivity {
         finish();
     }
 
+    // Called When User Clicks Delete Button
+
+    public void deleteTask(View view){
+        DatabaseHelper dbHelper = new DatabaseHelper(this);
+        dbHelper.deleteTask(taskId);
+        finish();
+    }
+
 }

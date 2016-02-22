@@ -97,10 +97,9 @@ tools:context="com.cse110.team1.todoapp.UpdateTaskActivity">
 
         <Button
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:text="Delete"
-            android:id="@+id/button"
-            android:layout_gravity="right"
+            android:onClick="deleteTask"
             android:background="#bd0d0d" />
 
 

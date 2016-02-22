@@ -124,6 +124,13 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         return isSuccessful;
     }
 
+//    Delete Tasks
+    public boolean deleteTask(long taskId){
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.delete(TASK_TABLE_NAME, TASK_COLUMN_ID + "=" + taskId, null) > 0;
+    }
+
+
     /*
      * Returns an ArrayList<String> of all descriptions of all tasks in the table.
      * If table is empty, the ArrayList will be as well (obviously).
