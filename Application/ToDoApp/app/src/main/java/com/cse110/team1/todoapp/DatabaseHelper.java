@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -45,14 +46,14 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     public DatabaseHelper(Context context)
     {
-        super(context, DATABASE_NAME , null, 1);
+        super(context, DATABASE_NAME, null, 1);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db){
         //Task table
         db.execSQL("create table " + TASK_TABLE_NAME + " (" +
-                        TASK_COLUMN_ID + " integer primary key, " +
+                        TASK_COLUMN_ID + " integer primary key autoincrement not null, " +
                         TASK_COLUMN_NAME + " text, " +
                         TASK_COLUMN_DETAILS + "text, " +
                         TASK_COLUMN_CREATED_TIME + " text, " +
@@ -104,6 +105,31 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         return isSuccessful;
     }
 
+    /* Update Tasks */
+
+    public boolean updateTask(long taskId, String name, String details, int percent){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(TASK_COLUMN_NAME, name);
+        contentValues.put(TASK_COLUMN_DETAILS, details);
+        contentValues.put(TASK_COLUMN_PERCENT, percent);
+        long returnid = db.update(TASK_TABLE_NAME, contentValues, TASK_COLUMN_ID + " = " + taskId, null);
+        boolean isSuccessful = true;
+        Log.d("HELLO1","" + taskId );
+
+        if (returnid == -1) {
+            Log.d("HELLO", "ddint wok");
+            isSuccessful = false;
+        }
+        return isSuccessful;
+    }
+
+//    Delete Tasks
+    public boolean deleteTask(long taskId){
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.delete(TASK_TABLE_NAME, TASK_COLUMN_ID + "=" + taskId, null) > 0;
+    }
+
 
     /*
      * Returns an ArrayList<String> of all descriptions of all tasks in the table.
@@ -151,5 +177,19 @@ public class DatabaseHelper extends SQLiteOpenHelper{
                         TASK_COLUMN_PERCENT + " integer, " +
                         TASK_COLUMN_DONE + " boolean)"
         );
+    }
+
+    /*
+     * Get a single row from the task table
+     */
+    public Cursor getTaskById(long id) {
+        SQLiteDatabase db = getReadableDatabase();
+        String[] columns = {TASK_COLUMN_ID, TASK_COLUMN_NAME, TASK_COLUMN_DETAILS,
+                TASK_COLUMN_CREATED_TIME, TASK_COLUMN_DUE_TIME, TASK_COLUMN_COMPLETED_TIME,
+                TASK_COLUMN_PERCENT, TASK_COLUMN_DONE};
+        String[] args = {""+id};
+        Cursor cursor = db.query(TASK_TABLE_NAME, columns, TASK_COLUMN_ID + " = ?", args,
+                null, null, null);
+        return cursor;
     }
 }

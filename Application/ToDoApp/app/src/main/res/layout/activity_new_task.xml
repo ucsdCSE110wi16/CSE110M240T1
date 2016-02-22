@@ -12,7 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
-        android:elevation="4dp"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
@@ -86,7 +85,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:textSize="@dimen/new_task_font_size"
-                    android:text="Not Set"/>
+                    android:text="@string/date_not_set"/>
 
             </RelativeLayout>
 

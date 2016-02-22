@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="color_primary">#03A9F4</color>
-    <color name="color_primary_dark">#0288D1</color>
-    <color name="menu_text">#FFFFFFFF</color>
+    <color name="color_primary">#81D4FA</color>
+    <color name="color_primary_dark">#29B6F6</color>
+    <color name="menu_text">#000000</color>
     <color name="new_task_text">#000000</color>
+    <color name="update_task_text">#000000</color>
     <color name="tabsScrollColor">#FFFFFF</color>
 
 </resources>
