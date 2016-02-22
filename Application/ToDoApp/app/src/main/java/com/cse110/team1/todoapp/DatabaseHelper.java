@@ -115,7 +115,8 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         contentValues.put(TASK_COLUMN_PERCENT, percent);
         long returnid = db.update(TASK_TABLE_NAME, contentValues, TASK_COLUMN_ID + " = " + taskId, null);
         boolean isSuccessful = true;
-        Log.d("HELLO1", name);
+        Log.d("HELLO1","" + taskId );
+
         if (returnid == -1) {
             Log.d("HELLO", "ddint wok");
             isSuccessful = false;

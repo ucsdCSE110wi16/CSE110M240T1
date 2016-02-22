@@ -38,7 +38,7 @@ public class UpdateTaskActivity extends AppCompatActivity {
         nameBox.setText(intent.getStringExtra(DatabaseHelper.TASK_COLUMN_NAME));
         detailBox.setText(intent.getStringExtra(DatabaseHelper.TASK_COLUMN_DETAILS));
         sbar.setProgress(intent.getIntExtra(DatabaseHelper.TASK_COLUMN_PERCENT, 0));
-        taskId = intent.getIntExtra(DatabaseHelper.TASK_COLUMN_ID,0);
+        taskId = intent.getIntExtra(DatabaseHelper.TASK_COLUMN_ID, 2);
     }
 
     // Called when user clicks save button
