@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -45,14 +46,14 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     public DatabaseHelper(Context context)
     {
-        super(context, DATABASE_NAME , null, 1);
+        super(context, DATABASE_NAME, null, 1);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db){
         //Task table
         db.execSQL("create table " + TASK_TABLE_NAME + " (" +
-                        TASK_COLUMN_ID + " integer primary key, " +
+                        TASK_COLUMN_ID + " integer primary key autoincrement not null, " +
                         TASK_COLUMN_NAME + " text, " +
                         TASK_COLUMN_DETAILS + "text, " +
                         TASK_COLUMN_CREATED_TIME + " text, " +
@@ -102,6 +103,31 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         if (returnid == -1)
             isSuccessful = false;
         return isSuccessful;
+    }
+
+    /* Update Tasks */
+
+    public boolean updateTask(long taskId, String name, String details, int percent){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(TASK_COLUMN_NAME, name);
+        contentValues.put(TASK_COLUMN_DETAILS, details);
+        contentValues.put(TASK_COLUMN_PERCENT, percent);
+        long returnid = db.update(TASK_TABLE_NAME, contentValues, TASK_COLUMN_ID + " = " + taskId, null);
+        boolean isSuccessful = true;
+        Log.d("HELLO1","" + taskId );
+
+        if (returnid == -1) {
+            Log.d("HELLO", "ddint wok");
+            isSuccessful = false;
+        }
+        return isSuccessful;
+    }
+
+//    Delete Tasks
+    public boolean deleteTask(long taskId){
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.delete(TASK_TABLE_NAME, TASK_COLUMN_ID + "=" + taskId, null) > 0;
     }
 
 

@@ -4,9 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SimpleCursorAdapter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,6 +43,12 @@ public class TasksFragment extends Fragment{
         super.onActivityCreated(savedInstanceState);
 
         // Fill list view
+        populateTaskList();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         populateTaskList();
     }
 
@@ -87,7 +95,7 @@ public class TasksFragment extends Fragment{
     }
 
     public void onTaskSelected(long id) {
-
+        Log.d("HELLO", "d" + id);
         String name = "";
         Cursor cursor = dbHelper.getTaskById(id);
         if (cursor != null) {
@@ -96,7 +104,7 @@ public class TasksFragment extends Fragment{
                 String details = cursor.getString(cursor.getColumnIndex(DatabaseHelper.TASK_COLUMN_DETAILS));
                 int progress = Integer.parseInt(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TASK_COLUMN_PERCENT)));
                 Intent intent = new Intent(getActivity(), UpdateTaskActivity.class);
-                intent.putExtra(DatabaseHelper.TASK_COLUMN_ID, id);
+                intent.putExtra(DatabaseHelper.TASK_COLUMN_ID, Integer.parseInt(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TASK_COLUMN_ID))));
                 intent.putExtra(DatabaseHelper.TASK_COLUMN_NAME, name);
                 intent.putExtra(DatabaseHelper.TASK_COLUMN_DETAILS, details);
                 intent.putExtra(DatabaseHelper.TASK_COLUMN_PERCENT, progress);
