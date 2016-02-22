@@ -53,7 +53,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     public void onCreate(SQLiteDatabase db){
         //Task table
         db.execSQL("create table " + TASK_TABLE_NAME + " (" +
-                        TASK_COLUMN_ID + " integer primary key, " +
+                        TASK_COLUMN_ID + " integer primary key autoincrement not null, " +
                         TASK_COLUMN_NAME + " text, " +
                         TASK_COLUMN_DETAILS + "text, " +
                         TASK_COLUMN_CREATED_TIME + " text, " +
