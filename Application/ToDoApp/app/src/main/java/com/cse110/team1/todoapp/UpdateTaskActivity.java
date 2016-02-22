@@ -12,6 +12,7 @@ public class UpdateTaskActivity extends AppCompatActivity {
     private EditText nameBox;
     private EditText detailBox;
     private SeekBar sbar;
+    private int hello; //place holder to delete
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
