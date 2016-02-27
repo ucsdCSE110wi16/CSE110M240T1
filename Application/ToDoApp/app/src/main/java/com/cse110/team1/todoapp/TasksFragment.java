@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SimpleCursorAdapter;
@@ -53,7 +52,8 @@ public class TasksFragment extends Fragment{
     }
 
     public void populateTaskList() {
-        Cursor cursor = dbHelper.fetchAllTasks();
+//        Cursor cursor = dbHelper.fetchAllTasks();
+        Cursor cursor = dbHelper.fetchAllTasksByProgress();
 
         // columns used to populate list view elements
         String[] columns = {DatabaseHelper.TASK_COLUMN_NAME,

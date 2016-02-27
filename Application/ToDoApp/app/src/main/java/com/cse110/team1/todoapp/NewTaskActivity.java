@@ -87,7 +87,7 @@ public class NewTaskActivity extends AppCompatActivity {
         DatabaseHelper dbHelper = new DatabaseHelper(this);
         dbHelper.insertTask(result.getExtras().getString(NewTaskActivity.TASK_DESCRIPTION),
                 result.getExtras().getString(NewTaskActivity.TASK_DETAILS),
-                null, null, null,
+                null, null, 0, 0, 0, null,
                 result.getExtras().getInt(NewTaskActivity.TASK_PROGRESS),
                 false);
         finish();

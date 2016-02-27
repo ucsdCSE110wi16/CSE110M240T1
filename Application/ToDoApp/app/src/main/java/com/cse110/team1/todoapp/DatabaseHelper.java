@@ -30,6 +30,9 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     public static final String TASK_COLUMN_DETAILS = "details";
     public static final String TASK_COLUMN_CREATED_TIME = "created";
     public static final String TASK_COLUMN_DUE_TIME = "due";
+    public static final String TASK_COLUMN_DUE_DAY = "due_day";
+    public static final String TASK_COLUMN_DUE_MONTH = "due_month";
+    public static final String TASK_COLUMN_DUE_YEAR = "due_year";
     public static final String TASK_COLUMN_COMPLETED_TIME = "completed";
     public static final String TASK_COLUMN_PERCENT = "percent";
     public static final String TASK_COLUMN_DONE = "done";
@@ -43,10 +46,10 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     //TODO: Add table for Notebook Notes
 
-
+    private static final int DATABASE_VERSION_NUMBER = 2;
     public DatabaseHelper(Context context)
     {
-        super(context, DATABASE_NAME, null, 1);
+        super(context, DATABASE_NAME, null, DATABASE_VERSION_NUMBER);
     }
 
     @Override
@@ -55,11 +58,14 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         db.execSQL("create table " + TASK_TABLE_NAME + " (" +
                         TASK_COLUMN_ID + " integer primary key autoincrement not null, " +
                         TASK_COLUMN_NAME + " text, " +
-                        TASK_COLUMN_DETAILS + "text, " +
+                        TASK_COLUMN_DETAILS + " text, " +
                         TASK_COLUMN_CREATED_TIME + " text, " +
                         TASK_COLUMN_DUE_TIME + " text, " +
+                        TASK_COLUMN_DUE_DAY + " integer, " +
+                        TASK_COLUMN_DUE_MONTH + " integer, " +
+                        TASK_COLUMN_DUE_YEAR + " integer, " +
                         TASK_COLUMN_COMPLETED_TIME + " text, " +
-                        TASK_COLUMN_PERCENT + "integer, " +
+                        TASK_COLUMN_PERCENT + " integer, " +
                         TASK_COLUMN_DONE + " boolean)"
         );
         //Notebook table
@@ -87,14 +93,18 @@ public class DatabaseHelper extends SQLiteOpenHelper{
      * Inserts new task into task table. At least one entry must be non-null.
      * Returns true if insert was successful, false otherwise.
      */
-    public boolean insertTask(String desc, String details, String created, String due,
-                              String completed, int percent, boolean done) {
+    public boolean insertTask(String desc, String details, String created, String due, int dueDay,
+                              int dueMonth, int dueYear, String completed, int percent,
+                              boolean done) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(TASK_COLUMN_NAME, desc);
         contentValues.put(TASK_COLUMN_DETAILS, details);
         contentValues.put(TASK_COLUMN_CREATED_TIME, created);
         contentValues.put(TASK_COLUMN_DUE_TIME, due);
+        contentValues.put(TASK_COLUMN_DUE_DAY, dueDay);
+        contentValues.put(TASK_COLUMN_DUE_MONTH, dueMonth);
+        contentValues.put(TASK_COLUMN_DUE_YEAR, dueYear);
         contentValues.put(TASK_COLUMN_COMPLETED_TIME, completed);
         contentValues.put(TASK_COLUMN_PERCENT, percent);
         contentValues.put(TASK_COLUMN_DONE, done);
@@ -106,7 +116,6 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     }
 
     /* Update Tasks */
-
     public boolean updateTask(long taskId, String name, String details, int percent){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -141,10 +150,12 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
         Cursor res =  db.rawQuery("select * from "+TASK_TABLE_NAME, null);
         res.moveToFirst();
-        while(res.isAfterLast() == false){
+        while(!res.isAfterLast()){
             taskList.add(res.getString(res.getColumnIndex(TASK_COLUMN_NAME)));
             res.moveToNext();
         }
+
+        res.close();
         return taskList;
     }
 
@@ -162,6 +173,22 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     }
 
     /*
+     * Returns cursor object containing all information from all columns/rows, ordered by increasing
+     * progress (full on bottom, no progress on top)
+     */
+    public Cursor fetchAllTasksByProgress() {
+        SQLiteDatabase db = getReadableDatabase();
+        String[] columns = {TASK_COLUMN_ID, TASK_COLUMN_NAME, TASK_COLUMN_DETAILS,
+                TASK_COLUMN_CREATED_TIME, TASK_COLUMN_DUE_TIME, TASK_COLUMN_DUE_DAY,
+                TASK_COLUMN_DUE_MONTH, TASK_COLUMN_DUE_YEAR, TASK_COLUMN_COMPLETED_TIME,
+                TASK_COLUMN_PERCENT, TASK_COLUMN_DONE};
+        String orderBy  = TASK_COLUMN_PERCENT;
+        Cursor cursor = db.query(TASK_TABLE_NAME, columns,
+                null, null, null, null, orderBy);
+        return cursor;
+    }
+
+    /*
      * Remake the table of tasks, in order to update.  Effectively deletes all entries.
      */
     public void remakeTaskTable() {
@@ -173,6 +200,9 @@ public class DatabaseHelper extends SQLiteOpenHelper{
                         TASK_COLUMN_DETAILS + " text, " +
                         TASK_COLUMN_CREATED_TIME + " text, " +
                         TASK_COLUMN_DUE_TIME + " text, " +
+                        TASK_COLUMN_DUE_DAY + " integer, " +
+                        TASK_COLUMN_DUE_MONTH + " integer, " +
+                        TASK_COLUMN_DUE_YEAR + " integer, " +
                         TASK_COLUMN_COMPLETED_TIME + " text, " +
                         TASK_COLUMN_PERCENT + " integer, " +
                         TASK_COLUMN_DONE + " boolean)"

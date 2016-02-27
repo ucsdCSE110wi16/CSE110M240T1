@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity{
 
         // Set up database
         dbHelper = new DatabaseHelper(this);
-        //dbHelper.remakeTaskTable();
+        dbHelper.remakeTaskTable();
         //populateTaskList();
     }
 
