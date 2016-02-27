@@ -46,7 +46,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     //TODO: Add table for Notebook Notes
 
-    private static final int DATABASE_VERSION_NUMBER = 2;
+    private static final int DATABASE_VERSION_NUMBER = 3;
     public DatabaseHelper(Context context)
     {
         super(context, DATABASE_NAME, null, DATABASE_VERSION_NUMBER);
@@ -189,6 +189,26 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     }
 
     /*
+     * Returns cursor object containing all information, orgainzed by year, month, day, then
+     * progress
+     */
+    public Cursor fetchAllTasksByDateThenProgress() {
+        SQLiteDatabase db = getReadableDatabase();
+        String[] columns = {TASK_COLUMN_ID, TASK_COLUMN_NAME, TASK_COLUMN_DETAILS,
+                TASK_COLUMN_CREATED_TIME, TASK_COLUMN_DUE_TIME, TASK_COLUMN_DUE_DAY,
+                TASK_COLUMN_DUE_MONTH, TASK_COLUMN_DUE_YEAR, TASK_COLUMN_COMPLETED_TIME,
+                TASK_COLUMN_PERCENT, TASK_COLUMN_DONE};
+        String orderBy  = TASK_COLUMN_DUE_YEAR + ", " +
+                          TASK_COLUMN_DUE_MONTH + ", " +
+                          TASK_COLUMN_DUE_DAY+ ", " +
+                          TASK_COLUMN_PERCENT;
+        Cursor cursor = db.query(TASK_TABLE_NAME, columns,
+                null, null, null, null, orderBy);
+        return cursor;
+    }
+
+
+    /*
      * Remake the table of tasks, in order to update.  Effectively deletes all entries.
      */
     public void remakeTaskTable() {
@@ -215,7 +235,8 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     public Cursor getTaskById(long id) {
         SQLiteDatabase db = getReadableDatabase();
         String[] columns = {TASK_COLUMN_ID, TASK_COLUMN_NAME, TASK_COLUMN_DETAILS,
-                TASK_COLUMN_CREATED_TIME, TASK_COLUMN_DUE_TIME, TASK_COLUMN_COMPLETED_TIME,
+                TASK_COLUMN_CREATED_TIME, TASK_COLUMN_DUE_TIME, TASK_COLUMN_DUE_DAY,
+                TASK_COLUMN_DUE_MONTH, TASK_COLUMN_DUE_YEAR, TASK_COLUMN_COMPLETED_TIME,
                 TASK_COLUMN_PERCENT, TASK_COLUMN_DONE};
         String[] args = {""+id};
         Cursor cursor = db.query(TASK_TABLE_NAME, columns, TASK_COLUMN_ID + " = ?", args,

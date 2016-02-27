@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SimpleCursorAdapter;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,7 +52,8 @@ public class TasksFragment extends Fragment{
 
     public void populateTaskList() {
 //        Cursor cursor = dbHelper.fetchAllTasks();
-        Cursor cursor = dbHelper.fetchAllTasksByProgress();
+//        Cursor cursor = dbHelper.fetchAllTasksByProgress();
+        Cursor cursor = dbHelper.fetchAllTasksByDateThenProgress();
 
         // columns used to populate list view elements
         String[] columns = {DatabaseHelper.TASK_COLUMN_NAME,
@@ -95,7 +95,6 @@ public class TasksFragment extends Fragment{
     }
 
     public void onTaskSelected(long id) {
-        Log.d("HELLO", "d" + id);
         String name = "";
         Cursor cursor = dbHelper.getTaskById(id);
         if (cursor != null) {
@@ -103,11 +102,18 @@ public class TasksFragment extends Fragment{
                 name = cursor.getString(cursor.getColumnIndex(DatabaseHelper.TASK_COLUMN_NAME));
                 String details = cursor.getString(cursor.getColumnIndex(DatabaseHelper.TASK_COLUMN_DETAILS));
                 int progress = Integer.parseInt(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TASK_COLUMN_PERCENT)));
+                int day = Integer.parseInt(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TASK_COLUMN_DUE_DAY)));
+                int month = Integer.parseInt(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TASK_COLUMN_DUE_MONTH)));
+                int year = Integer.parseInt(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TASK_COLUMN_DUE_YEAR)));
+
                 Intent intent = new Intent(getActivity(), UpdateTaskActivity.class);
                 intent.putExtra(DatabaseHelper.TASK_COLUMN_ID, Integer.parseInt(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TASK_COLUMN_ID))));
                 intent.putExtra(DatabaseHelper.TASK_COLUMN_NAME, name);
                 intent.putExtra(DatabaseHelper.TASK_COLUMN_DETAILS, details);
                 intent.putExtra(DatabaseHelper.TASK_COLUMN_PERCENT, progress);
+                intent.putExtra(DatabaseHelper.TASK_COLUMN_DUE_DAY, day);
+                intent.putExtra(DatabaseHelper.TASK_COLUMN_DUE_MONTH, month);
+                intent.putExtra(DatabaseHelper.TASK_COLUMN_DUE_YEAR, year);
                 getActivity().startActivity(intent);
             }
         }

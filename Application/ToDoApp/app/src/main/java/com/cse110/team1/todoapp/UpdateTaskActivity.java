@@ -9,11 +9,13 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.SeekBar;
+import android.widget.TextView;
 
 public class UpdateTaskActivity extends AppCompatActivity {
     private EditText nameBox;
     private EditText detailBox;
     private SeekBar sbar;
+    private TextView dateText;
     private long taskId;
 
     @Override
@@ -33,11 +35,22 @@ public class UpdateTaskActivity extends AppCompatActivity {
         nameBox = (EditText) findViewById(R.id.task_field);
         detailBox = (EditText) findViewById(R.id.detail_field);
         sbar = (SeekBar) findViewById(R.id.progress_seek_bar);
+        dateText = (TextView) findViewById(R.id.due_date_view);
+
 
         Intent intent = getIntent();
         nameBox.setText(intent.getStringExtra(DatabaseHelper.TASK_COLUMN_NAME));
         detailBox.setText(intent.getStringExtra(DatabaseHelper.TASK_COLUMN_DETAILS));
         sbar.setProgress(intent.getIntExtra(DatabaseHelper.TASK_COLUMN_PERCENT, 0));
+
+        int year = intent.getIntExtra(DatabaseHelper.TASK_COLUMN_DUE_YEAR, 0);
+        int month = intent.getIntExtra(DatabaseHelper.TASK_COLUMN_DUE_MONTH, 0);
+        int day = intent.getIntExtra(DatabaseHelper.TASK_COLUMN_DUE_DAY, 0);
+        if (year != 0) {
+            String date = String.format(getResources().getString((R.string.date_format)),
+                    month, day, year);
+            dateText.setText(date);
+        }
         taskId = intent.getIntExtra(DatabaseHelper.TASK_COLUMN_ID, 2);
     }
 

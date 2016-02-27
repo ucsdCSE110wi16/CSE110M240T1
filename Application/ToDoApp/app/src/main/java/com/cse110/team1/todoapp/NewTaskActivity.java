@@ -33,12 +33,20 @@ public class NewTaskActivity extends AppCompatActivity {
     public static final String TASK_DESCRIPTION = "task_description";
     public static final String TASK_DETAILS = "task_details";
     public static final String TASK_PROGRESS = "task_progress";
+    public static final String TASK_YEAR = "task_year";
+    public static final String TASK_MONTH = "task_month";
+    public static final String TASK_DAY = "task_day";
 
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
     private GoogleApiClient client;
+
+    // for setting the due date
+    private int mYear;
+    private int mMonth;
+    private int mDay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +64,10 @@ public class NewTaskActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null)
             actionBar.setDisplayHomeAsUpEnabled(true);
+
+        mYear = 0;
+        mMonth = 0;
+        mDay = 0;
     }
 
     @Override
@@ -87,20 +99,24 @@ public class NewTaskActivity extends AppCompatActivity {
         DatabaseHelper dbHelper = new DatabaseHelper(this);
         dbHelper.insertTask(result.getExtras().getString(NewTaskActivity.TASK_DESCRIPTION),
                 result.getExtras().getString(NewTaskActivity.TASK_DETAILS),
-                null, null, 0, 0, 0, null,
+                null, null, mDay, mMonth, mYear, null,
                 result.getExtras().getInt(NewTaskActivity.TASK_PROGRESS),
                 false);
         finish();
     }
+
 
     // promptDate: Called when user clicks Set Due Date button
     // DatePickerDialog.OnDateSetListener determines behavior when date picker fragment is finished
     DatePickerDialog.OnDateSetListener odsl = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+            mYear = year;
+            mMonth = monthOfYear + 1;
+            mDay = dayOfMonth;
             TextView tv = (TextView) findViewById(R.id.due_date_view);
             String date = String.format(getResources().getString((R.string.date_format)),
-                    monthOfYear, dayOfMonth, year);
+                    mMonth, mDay, mYear);
             tv.setText(date);
         }
     };
