@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -89,14 +88,15 @@ public class UpdateTaskActivity extends AppCompatActivity {
         detailBox = (EditText) findViewById(R.id.detail_field);
         sbar = (SeekBar) findViewById(R.id.progress_seek_bar);
 
-
+        boolean isDone = false;
+        if (sbar.getProgress() >= 100) {
+            isDone = true;
+        }
 
         // update entry to table
         DatabaseHelper dbHelper = new DatabaseHelper(this);
         dbHelper.updateTask(taskId, nameBox.getText().toString(), detailBox.getText().toString(),
-                mDay, mMonth, mYear, sbar.getProgress());
-        Log.d("HELLO", nameBox.getText().toString());
-
+                mDay, mMonth, mYear, sbar.getProgress(), isDone);
         finish();
     }
 

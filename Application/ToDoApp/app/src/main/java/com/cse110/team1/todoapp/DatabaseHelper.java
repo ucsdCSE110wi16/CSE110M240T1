@@ -116,7 +116,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     /* Update Tasks */
     public boolean updateTask(long taskId, String name, String details, int day, int month,
-                              int year, int percent){
+                              int year, int percent, boolean done){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(TASK_COLUMN_NAME, name);
@@ -125,6 +125,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         contentValues.put(TASK_COLUMN_DUE_MONTH, month);
         contentValues.put(TASK_COLUMN_DUE_YEAR, year);
         contentValues.put(TASK_COLUMN_PERCENT, percent);
+        contentValues.put(TASK_COLUMN_DONE, done);
         long returnId = db.update(TASK_TABLE_NAME, contentValues, TASK_COLUMN_ID + " = " + taskId, null);
         boolean isSuccessful = true;
 
@@ -199,9 +200,10 @@ public class DatabaseHelper extends SQLiteOpenHelper{
                 TASK_COLUMN_CREATED_TIME, TASK_COLUMN_DUE_TIME, TASK_COLUMN_DUE_DAY,
                 TASK_COLUMN_DUE_MONTH, TASK_COLUMN_DUE_YEAR, TASK_COLUMN_COMPLETED_TIME,
                 TASK_COLUMN_PERCENT, TASK_COLUMN_DONE};
-        String orderBy  = TASK_COLUMN_DUE_YEAR + ", " +
+        String orderBy  = TASK_COLUMN_DONE + ", " +
+                          TASK_COLUMN_DUE_YEAR + ", " +
                           TASK_COLUMN_DUE_MONTH + ", " +
-                          TASK_COLUMN_DUE_DAY+ ", " +
+                          TASK_COLUMN_DUE_DAY + ", " +
                           TASK_COLUMN_PERCENT;
         Cursor cursor = db.query(TASK_TABLE_NAME, columns,
                 null, null, null, null, orderBy);

@@ -95,13 +95,17 @@ public class NewTaskActivity extends AppCompatActivity {
         result.putExtra(TASK_PROGRESS, sbar.getProgress());
         setResult(RESULT_OK, result);
 
+        boolean isDone = false;
+        if (sbar.getProgress() >= 100) {
+            isDone = true;
+        }
         // add new entry to table
         DatabaseHelper dbHelper = new DatabaseHelper(this);
         dbHelper.insertTask(result.getExtras().getString(NewTaskActivity.TASK_DESCRIPTION),
                 result.getExtras().getString(NewTaskActivity.TASK_DETAILS),
                 null, null, mDay, mMonth, mYear, null,
                 result.getExtras().getInt(NewTaskActivity.TASK_PROGRESS),
-                false);
+                isDone);
         finish();
     }
 
