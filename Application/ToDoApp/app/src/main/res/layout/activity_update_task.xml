@@ -76,6 +76,7 @@ tools:context="com.cse110.team1.todoapp.UpdateTaskActivity">
                 android:id="@+id/date_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:onClick="promptDate"
                 android:text="@string/due_date_button" />
 
             <TextView
