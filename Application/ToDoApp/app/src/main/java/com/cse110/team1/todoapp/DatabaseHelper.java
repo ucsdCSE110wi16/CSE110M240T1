@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -116,18 +115,20 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     }
 
     /* Update Tasks */
-    public boolean updateTask(long taskId, String name, String details, int percent){
+    public boolean updateTask(long taskId, String name, String details, int day, int month,
+                              int year, int percent){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(TASK_COLUMN_NAME, name);
         contentValues.put(TASK_COLUMN_DETAILS, details);
+        contentValues.put(TASK_COLUMN_DUE_DAY, day);
+        contentValues.put(TASK_COLUMN_DUE_MONTH, month);
+        contentValues.put(TASK_COLUMN_DUE_YEAR, year);
         contentValues.put(TASK_COLUMN_PERCENT, percent);
-        long returnid = db.update(TASK_TABLE_NAME, contentValues, TASK_COLUMN_ID + " = " + taskId, null);
+        long returnId = db.update(TASK_TABLE_NAME, contentValues, TASK_COLUMN_ID + " = " + taskId, null);
         boolean isSuccessful = true;
-        Log.d("HELLO1","" + taskId );
 
-        if (returnid == -1) {
-            Log.d("HELLO", "ddint wok");
+        if (returnId == -1) {
             isSuccessful = false;
         }
         return isSuccessful;
@@ -239,8 +240,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
                 TASK_COLUMN_DUE_MONTH, TASK_COLUMN_DUE_YEAR, TASK_COLUMN_COMPLETED_TIME,
                 TASK_COLUMN_PERCENT, TASK_COLUMN_DONE};
         String[] args = {""+id};
-        Cursor cursor = db.query(TASK_TABLE_NAME, columns, TASK_COLUMN_ID + " = ?", args,
+        return db.query(TASK_TABLE_NAME, columns, TASK_COLUMN_ID + " = ?", args,
                 null, null, null);
-        return cursor;
     }
 }

@@ -18,6 +18,8 @@ public class UpdateTaskActivity extends AppCompatActivity {
     private TextView dateText;
     private long taskId;
 
+    private int mDay, mMonth, mYear;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,12 +45,12 @@ public class UpdateTaskActivity extends AppCompatActivity {
         detailBox.setText(intent.getStringExtra(DatabaseHelper.TASK_COLUMN_DETAILS));
         sbar.setProgress(intent.getIntExtra(DatabaseHelper.TASK_COLUMN_PERCENT, 0));
 
-        int year = intent.getIntExtra(DatabaseHelper.TASK_COLUMN_DUE_YEAR, 0);
-        int month = intent.getIntExtra(DatabaseHelper.TASK_COLUMN_DUE_MONTH, 0);
-        int day = intent.getIntExtra(DatabaseHelper.TASK_COLUMN_DUE_DAY, 0);
-        if (year != 0) {
+        mYear = intent.getIntExtra(DatabaseHelper.TASK_COLUMN_DUE_YEAR, 0);
+        mMonth = intent.getIntExtra(DatabaseHelper.TASK_COLUMN_DUE_MONTH, 0);
+        mDay = intent.getIntExtra(DatabaseHelper.TASK_COLUMN_DUE_DAY, 0);
+        if (mYear != 0) {
             String date = String.format(getResources().getString((R.string.date_format)),
-                    month, day, year);
+                    mMonth, mDay, mYear);
             dateText.setText(date);
         }
         taskId = intent.getIntExtra(DatabaseHelper.TASK_COLUMN_ID, 2);
@@ -65,7 +67,8 @@ public class UpdateTaskActivity extends AppCompatActivity {
 
         // update entry to table
         DatabaseHelper dbHelper = new DatabaseHelper(this);
-        dbHelper.updateTask(taskId, nameBox.getText().toString(), detailBox.getText().toString(), sbar.getProgress());
+        dbHelper.updateTask(taskId, nameBox.getText().toString(), detailBox.getText().toString(),
+                mDay, mMonth, mYear, sbar.getProgress());
         Log.d("HELLO", nameBox.getText().toString());
 
         finish();
