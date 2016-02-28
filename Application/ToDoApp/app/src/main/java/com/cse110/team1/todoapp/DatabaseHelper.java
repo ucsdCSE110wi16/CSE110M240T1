@@ -68,25 +68,54 @@ public class DatabaseHelper extends SQLiteOpenHelper{
                         TASK_COLUMN_DONE + " boolean)"
         );
         //Notebook table
-        // db.execSQL("create table " + TASK_TABLE_NAME + " (" +
-        //                 TASK_COLUMN_ID + " integer primary key, " +
-        //                 TASK_COLUMN_NAME + " text, " +
-        //                 TASK_COLUMN_DETAILS + "text, " +
-        //                 TASK_COLUMN_CREATED_TIME + " text, " +
-        //                 TASK_COLUMN_DUE_TIME + " text, " +
-        //                 TASK_COLUMN_COMPLETED_TIME + " text, " +
-        //                 TASK_COLUMN_PERCENT + "integer, " +
-        //                 TASK_COLUMN_DONE + " boolean)"
-        // );
+         db.execSQL("create table " + NOTEBOOK_TABLE_NAME + " (" +
+                         NOTEBOOK_COLUMN_ID + " integer primary key  autoincrement not null, " +
+                         NOTEBOOK_COLUMN_DESCRIPTION + "text, " +
+                         NOTEBOOK_COLUMN_TITLE + " text, " +
+                         NOTEBOOK_COLUMN_CREATED_TIME + " text)"
+         );
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TASK_TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + NOTEBOOK_TABLE_NAME);
         onCreate(db);
     }
 
 
+    public boolean insertNote(String title, String desc, String created){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(NOTEBOOK_COLUMN_TITLE, title);
+        contentValues.put(NOTEBOOK_COLUMN_DESCRIPTION, desc);
+        contentValues.put(NOTEBOOK_COLUMN_CREATED_TIME, created);
+
+        long returnid = db.insert(NOTEBOOK_TABLE_NAME, null, contentValues);
+        boolean isSuccessful = true;
+        if (returnid == -1)
+            isSuccessful = false;
+        return isSuccessful;
+
+    }
+
+    public boolean updateNote(long noteId, String title, String desc, String created){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(NOTEBOOK_COLUMN_TITLE, title);
+        contentValues.put(NOTEBOOK_COLUMN_DESCRIPTION, desc);
+        contentValues.put(NOTEBOOK_COLUMN_CREATED_TIME, created);
+        long returnId = db.update(NOTEBOOK_TABLE_NAME, contentValues, NOTEBOOK_COLUMN_ID + " = " + noteId, null);
+        boolean isSuccessful = true;
+        if(returnId == -1)
+            isSuccessful = false;
+        return isSuccessful;
+    }
+
+    public boolean deleteNote(long noteID){
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.delete(NOTEBOOK_TABLE_NAME, NOTEBOOK_COLUMN_ID + "=" + noteID, null) > 0;
+    }
     /*
      * Inserts new task into task table. At least one entry must be non-null.
      * Returns true if insert was successful, false otherwise.
