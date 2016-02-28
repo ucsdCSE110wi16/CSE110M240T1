@@ -6,7 +6,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 /**
  * Created by team1 on 1/25/16.
@@ -169,7 +172,60 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         return db.delete(TASK_TABLE_NAME, TASK_COLUMN_ID + "=" + taskId, null) > 0;
     }
 
+    //Count Rows in Database. Wayne Combs
+    //Returns integer count of all tasks present.
+    public int getDatabaseCount() {
+        String countQuery = "SELECT  * FROM " + DATABASE_NAME;
+        SQLiteDatabase dbHelper = this.getReadableDatabase();
+        Cursor cursor = dbHelper.rawQuery(countQuery, null);
+        if (cursor.getCount() > 0 && cursor.getColumnCount() > 0) {
+            cursor.close();
+            return cursor.getCount();
+        } else {
+            cursor.close();
+            return 0;
+        }
+    }
 
+    //Count how many tasks are completed. Wayne Combs
+    //Loops through database and counts how many
+    //true instances are found under the done column
+    public int getDoneCount(){
+        int doneCount = 0;
+        String selectQuery = "SELECT  * FROM " + DATABASE_NAME;
+        SQLiteDatabase dbHelper = this.getReadableDatabase();
+        Cursor cursor = dbHelper.rawQuery(selectQuery, null);
+        if(cursor.moveToFirst()){
+            do{
+                boolean value = (cursor.getInt(Integer.parseInt(TASK_COLUMN_DONE)) == 1);
+                if(value) doneCount++;
+            }while(cursor.moveToNext());
+        }
+        return doneCount;
+    }
+
+    //Count how many tasks are overdue. Wayne Combs
+    //Loops through database and counts how many
+    //tasks are overdue and return count of overdue instances.
+    public int getOverdueCount(){
+        DateFormat df = new SimpleDateFormat("MMddYYYYHHmm");
+        String date = df.format(Calendar.getInstance());
+        int dateInt = Integer.parseInt(date);
+        int OverDueCount = 0;
+        String selectQuery = "SELECT  * FROM " + DATABASE_NAME;
+        SQLiteDatabase dbHelper = this.getReadableDatabase();
+        Cursor cursor = dbHelper.rawQuery(selectQuery, null);
+        if(cursor.moveToFirst()){
+            do{
+                String value = (cursor.getString(Integer.parseInt(TASK_COLUMN_DUE_MONTH)));
+                value = value + (cursor.getString(Integer.parseInt(TASK_COLUMN_DUE_DAY)));
+                value = value + (cursor.getString(Integer.parseInt(TASK_COLUMN_DUE_YEAR)));
+                value = value + (cursor.getString(Integer.parseInt(TASK_COLUMN_DUE_TIME)));
+                if(dateInt > (Integer.parseInt(value))) OverDueCount++;
+            }while(cursor.moveToNext());
+        }
+        return OverDueCount;
+    }
     /*
      * Returns an ArrayList<String> of all descriptions of all tasks in the table.
      * If table is empty, the ArrayList will be as well (obviously).
