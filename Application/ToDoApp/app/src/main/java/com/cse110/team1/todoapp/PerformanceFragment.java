@@ -33,8 +33,14 @@ public class PerformanceFragment extends Fragment {
         //doneCount = dbHelper.getDoneCount();
         //overdueCount = dbHelper.getOverdueCount();
         //Added graph to performance tab. Wayne Combs 2.21.16
+        int[] taskPercentage = new int[taskCount];
+        for(int i = 0; i < taskCount; i++){
+            taskPercentage[i] = taskCount;
+        }
         GraphView line_graph = (GraphView) v. findViewById(R.id.graph);
-        LineGraphSeries<DataPoint> line_series =
+        LineGraphSeries<DataPoint> line_series = new LineGraphSeries<DataPoint>(generateData());
+        line_graph.addSeries(line_series);
+        /*LineGraphSeries<DataPoint> line_series =
                 new LineGraphSeries<DataPoint>(new DataPoint[] {
                         new DataPoint(0, taskCount),
                         new DataPoint(1, taskCount),
@@ -43,6 +49,16 @@ public class PerformanceFragment extends Fragment {
                         new DataPoint(4, doneCount)
                 });
         line_graph.addSeries(line_series);
+        */
         return v;
+    }
+
+    private DataPoint[] generateData(){
+        DataPoint[] values = new DataPoint[taskCount];
+        for(int i=0; i<taskCount; i++){
+            DataPoint v = new DataPoint (i+1, taskCount*i);
+            values[i] = v;
+        }
+        return values;
     }
 }
