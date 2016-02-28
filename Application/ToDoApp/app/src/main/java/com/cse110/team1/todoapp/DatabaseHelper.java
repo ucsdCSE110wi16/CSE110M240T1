@@ -174,8 +174,8 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     //Count Rows in Database. Wayne Combs
     //Returns integer count of all tasks present.
-    public int getDatabaseCount() {
-        String countQuery = "SELECT  * FROM " + DATABASE_NAME;
+    public int getTaskCount() {
+        String countQuery = "select * from " + TASK_TABLE_NAME;
         SQLiteDatabase dbHelper = this.getReadableDatabase();
         Cursor cursor = dbHelper.rawQuery(countQuery, null);
         if (cursor.getCount() > 0 && cursor.getColumnCount() > 0) {
@@ -192,7 +192,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     //true instances are found under the done column
     public int getDoneCount(){
         int doneCount = 0;
-        String selectQuery = "SELECT  * FROM " + DATABASE_NAME;
+        String selectQuery = "select * from " + TASK_TABLE_NAME;
         SQLiteDatabase dbHelper = this.getReadableDatabase();
         Cursor cursor = dbHelper.rawQuery(selectQuery, null);
         if(cursor.moveToFirst()){
@@ -201,6 +201,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
                 if(value) doneCount++;
             }while(cursor.moveToNext());
         }
+        cursor.close();
         return doneCount;
     }
 
@@ -212,7 +213,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         String date = df.format(Calendar.getInstance());
         int dateInt = Integer.parseInt(date);
         int OverDueCount = 0;
-        String selectQuery = "SELECT  * FROM " + DATABASE_NAME;
+        String selectQuery = "select * from " + TASK_TABLE_NAME;
         SQLiteDatabase dbHelper = this.getReadableDatabase();
         Cursor cursor = dbHelper.rawQuery(selectQuery, null);
         if(cursor.moveToFirst()){
@@ -224,6 +225,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
                 if(dateInt > (Integer.parseInt(value))) OverDueCount++;
             }while(cursor.moveToNext());
         }
+        cursor.close();
         return OverDueCount;
     }
     /*

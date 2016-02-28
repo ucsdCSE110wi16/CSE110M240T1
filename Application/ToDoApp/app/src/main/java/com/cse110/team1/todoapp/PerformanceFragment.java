@@ -27,19 +27,20 @@ public class PerformanceFragment extends Fragment {
 
 
         //Working on database integration with graph
-        //dbHelper = new DatabaseHelper(this);
-        //taskCount = dbHelper.getDatabaseCount();
+        dbHelper = new DatabaseHelper(getActivity());
+        //dbHelper.getDatabaseCount();
+        taskCount = dbHelper.getTaskCount();
         //doneCount = dbHelper.getDoneCount();
         //overdueCount = dbHelper.getOverdueCount();
         //Added graph to performance tab. Wayne Combs 2.21.16
         GraphView line_graph = (GraphView) v. findViewById(R.id.graph);
         LineGraphSeries<DataPoint> line_series =
                 new LineGraphSeries<DataPoint>(new DataPoint[] {
-                        new DataPoint(0, 1),
-                        new DataPoint(1, 5),
-                        new DataPoint(2, 3),
-                        new DataPoint(3, 2),
-                        new DataPoint(4, 6)
+                        new DataPoint(0, taskCount),
+                        new DataPoint(1, taskCount),
+                        new DataPoint(2, taskCount),
+                        new DataPoint(3, doneCount),
+                        new DataPoint(4, doneCount)
                 });
         line_graph.addSeries(line_series);
         return v;
