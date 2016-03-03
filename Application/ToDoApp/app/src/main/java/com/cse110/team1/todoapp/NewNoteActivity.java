@@ -1,9 +1,18 @@
 package com.cse110.team1.todoapp;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.SeekBar;
+import android.widget.TextView;
 
 /**
  * Created by ameer on 3/3/16.
@@ -22,8 +31,8 @@ public class NewNoteActivity extends AppCompatActivity{
         // this activity is launched with startActivityForResult anyway because MainActivity needs
         // to know when to refresh the ListView
         Intent result = new Intent();
-        result.putExtra(NOTE_DESCRIPTION, nameBox.getText().toString());
-        result.putExtra(NOTE_DETAILS, detailBox.getText().toString());
+        //result.putExtra(NOTE_DESCRIPTION, nameBox.getText().toString());
+        //result.putExtra(NOTE_DETAILS, detailBox.getText().toString());
         setResult(RESULT_OK, result);
 
 
