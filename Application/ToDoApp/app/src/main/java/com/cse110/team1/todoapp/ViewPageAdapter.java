@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 public class ViewPageAdapter extends FragmentStatePagerAdapter{
     CharSequence Titles[]; // This will Store the Titles of the Tabs which are Going to be passed when ViewPagerAdapter is created
     int NumbOfTabs; // Store the number of tabs, this will also be passed when the ViewPagerAdapter is created
+    int position = 0;
 
     // This will store the fragments for later access
     SparseArray<Fragment> registeredFragments = new SparseArray<Fragment>();
@@ -31,18 +32,25 @@ public class ViewPageAdapter extends FragmentStatePagerAdapter{
         if(position == 0) // if the position is 0 we are returning the First tab
         {
             TasksFragment taskFragment = new TasksFragment();
+            this.position = 0;
             return taskFragment;
         }else if(position == 1) {
             NotesFragment notesFrag = new NotesFragment();
+            this.position = 1;
             return notesFrag;
 
         }else             // As we are having 2 tabs if the position is now 0 it must be 1 so we are returning second tab
         {
             PerformanceFragment performanceFrag = new PerformanceFragment();
+            this.position = 2;
             return performanceFrag;
         }
 
 
+    }
+
+    public int getPosition(){
+        return position;
     }
 
     // This method return the titles for the Tabs in the Tab Strip

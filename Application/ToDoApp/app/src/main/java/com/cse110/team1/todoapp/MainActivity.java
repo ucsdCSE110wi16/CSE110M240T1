@@ -83,7 +83,11 @@ public class MainActivity extends AppCompatActivity{
                 return true;
 
             case R.id.action_new_task:
-                createTask();
+                if (adapter.getPosition() == 1){
+                    createTask();
+                }else{
+                    createNote();
+                }
                 return true;
 
             case R.id.action_delete_all_tasks:
@@ -124,5 +128,8 @@ public class MainActivity extends AppCompatActivity{
     public void createTask() {
         Intent intent = new Intent(this, NewTaskActivity.class);
         startActivityForResult(intent, CREATE_TASK_REQUEST);
+    }
+    public void createNote() {
+
     }
 }
