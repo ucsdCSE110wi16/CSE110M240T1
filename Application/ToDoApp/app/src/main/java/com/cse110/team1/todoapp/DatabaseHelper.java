@@ -205,12 +205,28 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         return doneCount;
     }
 
+    public int[] getAllTaskPercentage(int[] percentage){
+        String selectQuery = "select * from " + TASK_TABLE_NAME;
+        SQLiteDatabase dbHelper = this.getReadableDatabase();
+        Cursor cursor = dbHelper.rawQuery(selectQuery, null);
+        int index = 0;
+        if(cursor.moveToFirst()){
+            do{
+                percentage[index] = cursor.getInt(9);
+                index++;
+            }while(cursor.moveToNext());
+        }
+        cursor.close();
+        return percentage;
+    }
+
     //Count how many tasks are overdue. Wayne Combs
     //Loops through database and counts how many
     //tasks are overdue and return count of overdue instances.
     public int getOverdueCount(){
-        DateFormat df = new SimpleDateFormat("MMddYYYYHHmm");
-        String date = df.format(Calendar.getInstance());
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat df = new SimpleDateFormat("ddMMyyyy");
+        String date = df.format(c.getTime());
         int dateInt = Integer.parseInt(date);
         int OverDueCount = 0;
         String selectQuery = "select * from " + TASK_TABLE_NAME;
@@ -218,10 +234,9 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         Cursor cursor = dbHelper.rawQuery(selectQuery, null);
         if(cursor.moveToFirst()){
             do{
-                String value = (cursor.getString(Integer.parseInt(TASK_COLUMN_DUE_MONTH)));
-                value = value + (cursor.getString(Integer.parseInt(TASK_COLUMN_DUE_DAY)));
-                value = value + (cursor.getString(Integer.parseInt(TASK_COLUMN_DUE_YEAR)));
-                value = value + (cursor.getString(Integer.parseInt(TASK_COLUMN_DUE_TIME)));
+                String value = (cursor.getString(5));
+                value = value + (cursor.getString(6));
+                value = value + (cursor.getString(7));
                 if(dateInt > (Integer.parseInt(value))) OverDueCount++;
             }while(cursor.moveToNext());
         }

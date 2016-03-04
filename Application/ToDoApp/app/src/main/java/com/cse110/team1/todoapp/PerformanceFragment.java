@@ -28,17 +28,22 @@ public class PerformanceFragment extends Fragment {
 
         //Working on database integration with graph
         dbHelper = new DatabaseHelper(getActivity());
-        //dbHelper.getDatabaseCount();
         taskCount = dbHelper.getTaskCount();
         doneCount = dbHelper.getDoneCount();
-        //overdueCount = dbHelper.getOverdueCount();
+        overdueCount = dbHelper.getOverdueCount();
         //Added graph to performance tab. Wayne Combs 2.21.16
         int[] taskPercentage = new int[taskCount];
-        for(int i = 0; i < taskCount; i++){
-            taskPercentage[i] = taskCount;
+        Cursor cursor = dbHelper.fetchAllTasksByDateThenProgress();
+        int index = 0;
+        if(cursor.moveToFirst()){
+            do{
+                taskPercentage[index] = cursor.getInt(9);
+                index++;
+            }while(cursor.moveToNext());
         }
+        cursor.close();
         GraphView line_graph = (GraphView) v. findViewById(R.id.graph);
-        LineGraphSeries<DataPoint> line_series = new LineGraphSeries<DataPoint>(generateData());
+        LineGraphSeries<DataPoint> line_series = new LineGraphSeries<DataPoint>(generateData(taskPercentage));
         line_graph.addSeries(line_series);
         /*LineGraphSeries<DataPoint> line_series =
                 new LineGraphSeries<DataPoint>(new DataPoint[] {
@@ -53,10 +58,10 @@ public class PerformanceFragment extends Fragment {
         return v;
     }
 
-    private DataPoint[] generateData(){
+    private DataPoint[] generateData(int[] tasksPercentage){
         DataPoint[] values = new DataPoint[taskCount];
         for(int i=0; i<taskCount; i++){
-            DataPoint v = new DataPoint (i+1, doneCount);
+            DataPoint v = new DataPoint (i+1, tasksPercentage[i]);
             values[i] = v;
         }
         return values;
