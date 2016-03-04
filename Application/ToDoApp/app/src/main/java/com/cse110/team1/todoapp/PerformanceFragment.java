@@ -61,9 +61,11 @@ public class PerformanceFragment extends Fragment {
         line_graph.getViewport().setYAxisBoundsManual(true);
         line_graph.getViewport().setMinY(0);
         line_graph.getViewport().setMaxY(100);
-        line_graph.getViewport().setXAxisBoundsManual(true);
-        line_graph.getViewport().setMinX(1);
-        line_graph.getViewport().setMaxX(taskCount);
+        if(taskCount>0) {
+            line_graph.getViewport().setXAxisBoundsManual(true);
+            line_graph.getViewport().setMinX(1);
+            line_graph.getViewport().setMaxX(taskCount);
+        }
         LineGraphSeries<DataPoint> line_series = new LineGraphSeries<DataPoint>(generateData(taskPercentage));
         line_graph.addSeries(line_series);
         /*LineGraphSeries<DataPoint> line_series =
