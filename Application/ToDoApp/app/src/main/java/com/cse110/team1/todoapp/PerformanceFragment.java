@@ -7,6 +7,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
 import com.cse110.team1.todoapp.MainActivity;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
@@ -31,18 +33,37 @@ public class PerformanceFragment extends Fragment {
         taskCount = dbHelper.getTaskCount();
         doneCount = dbHelper.getDoneCount();
         overdueCount = dbHelper.getOverdueCount();
+        TextView text = (TextView) v.findViewById(R.id.textView5);
+        text.setText(String.valueOf(taskCount));
+        TextView text2 = (TextView) v.findViewById(R.id.textView6);
+        text2.setText(String.valueOf(doneCount));
         //Added graph to performance tab. Wayne Combs 2.21.16
+        int avgTaskComplete = 0;
         int[] taskPercentage = new int[taskCount];
-        Cursor cursor = dbHelper.fetchAllTasksByDateThenProgress();
+        Cursor cursor = dbHelper.fetchAllTasks();
         int index = 0;
         if(cursor.moveToFirst()){
             do{
-                taskPercentage[index] = cursor.getInt(9);
+                taskPercentage[index] = cursor.getInt(6);
+                avgTaskComplete += cursor.getInt(6);
                 index++;
             }while(cursor.moveToNext());
         }
         cursor.close();
+        if(taskCount != 0){
+            avgTaskComplete = (avgTaskComplete/ taskCount);
+        }
+        TextView text3 = (TextView) v.findViewById(R.id.textView7);
+        text3.setText(String.valueOf(avgTaskComplete));
+        TextView text4 = (TextView) v.findViewById(R.id.textView9);
+        text4.setText(String.valueOf(overdueCount));
         GraphView line_graph = (GraphView) v. findViewById(R.id.graph);
+        line_graph.getViewport().setYAxisBoundsManual(true);
+        line_graph.getViewport().setMinY(0);
+        line_graph.getViewport().setMaxY(100);
+        line_graph.getViewport().setXAxisBoundsManual(true);
+        line_graph.getViewport().setMinX(1);
+        line_graph.getViewport().setMaxX(taskCount);
         LineGraphSeries<DataPoint> line_series = new LineGraphSeries<DataPoint>(generateData(taskPercentage));
         line_graph.addSeries(line_series);
         /*LineGraphSeries<DataPoint> line_series =

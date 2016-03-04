@@ -232,12 +232,14 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         String selectQuery = "select * from " + TASK_TABLE_NAME;
         SQLiteDatabase dbHelper = this.getReadableDatabase();
         Cursor cursor = dbHelper.rawQuery(selectQuery, null);
+        String value = "";
         if(cursor.moveToFirst()){
             do{
-                String value = (cursor.getString(5));
+                value = value + (cursor.getString(5));
                 value = value + (cursor.getString(6));
                 value = value + (cursor.getString(7));
-                if(dateInt > (Integer.parseInt(value))) OverDueCount++;
+                if(date.compareTo(value) == -1) OverDueCount++;
+                value = "";
             }while(cursor.moveToNext());
         }
         cursor.close();
