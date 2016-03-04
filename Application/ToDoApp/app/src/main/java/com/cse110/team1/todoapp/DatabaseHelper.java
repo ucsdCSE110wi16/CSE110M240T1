@@ -5,6 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.database.*;
+import android.util.Log;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -71,12 +73,17 @@ public class DatabaseHelper extends SQLiteOpenHelper{
                         TASK_COLUMN_DONE + " boolean)"
         );
         //Notebook table
-         db.execSQL("create table " + NOTEBOOK_TABLE_NAME + " (" +
-                         NOTEBOOK_COLUMN_ID + " integer primary key  autoincrement not null, " +
-                         NOTEBOOK_COLUMN_DESCRIPTION + "text, " +
-                         NOTEBOOK_COLUMN_TITLE + " text, " +
-                         NOTEBOOK_COLUMN_CREATED_TIME + " text)"
-         );
+        try {
+            db.execSQL("create table " + NOTEBOOK_TABLE_NAME + " (" +
+                            NOTEBOOK_COLUMN_ID + " integer primary key autoincrement not null, " +
+                            NOTEBOOK_COLUMN_DESCRIPTION + " text, " +
+                            NOTEBOOK_COLUMN_TITLE + " text, " +
+                            NOTEBOOK_COLUMN_CREATED_TIME + " text)"
+            );
+        } catch (SQLException e) {
+            Log.d("hello", "ff");
+        }
+
     }
 
     @Override
@@ -92,8 +99,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         ContentValues contentValues = new ContentValues();
         contentValues.put(NOTEBOOK_COLUMN_TITLE, title);
         contentValues.put(NOTEBOOK_COLUMN_DESCRIPTION, desc);
-        contentValues.put(NOTEBOOK_COLUMN_CREATED_TIME, created);
-
+        //db.execSQL("INSERT INTO notes ('title') VALUES ('w')");
         long returnid = db.insert(NOTEBOOK_TABLE_NAME, null, contentValues);
         boolean isSuccessful = true;
         if (returnid == -1)
@@ -253,7 +259,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         ArrayList<String> taskList = new ArrayList<String>();
         SQLiteDatabase db = this.getReadableDatabase();
 
-        Cursor res =  db.rawQuery("select * from "+TASK_TABLE_NAME, null);
+        Cursor res =  db.rawQuery("select * from " + TASK_TABLE_NAME, null);
         res.moveToFirst();
         while(!res.isAfterLast()){
             taskList.add(res.getString(res.getColumnIndex(TASK_COLUMN_NAME)));
@@ -310,6 +316,12 @@ public class DatabaseHelper extends SQLiteOpenHelper{
                 null, null, null, null, orderBy);
     }
 
+    public Cursor fetchAllNotes(){
+        SQLiteDatabase db = getReadableDatabase();
+        String[] columns = {NOTEBOOK_COLUMN_ID,NOTEBOOK_COLUMN_DESCRIPTION,NOTEBOOK_COLUMN_TITLE,NOTEBOOK_COLUMN_CREATED_TIME};
+        return db.query(NOTEBOOK_TABLE_NAME, columns,null, null, null, null, null);
+
+    }
 
     /*
      * Remake the table of tasks, in order to update.  Effectively deletes all entries.
@@ -330,6 +342,13 @@ public class DatabaseHelper extends SQLiteOpenHelper{
                         TASK_COLUMN_PERCENT + " integer, " +
                         TASK_COLUMN_DONE + " boolean)"
         );
+        db.execSQL("DROP TABLE "+NOTEBOOK_TABLE_NAME);
+        db.execSQL("create table " + NOTEBOOK_TABLE_NAME + " (" +
+                        NOTEBOOK_COLUMN_ID + " integer primary key autoincrement not null, " +
+                        NOTEBOOK_COLUMN_DESCRIPTION + " text, " +
+                        NOTEBOOK_COLUMN_TITLE + " text, " +
+                        NOTEBOOK_COLUMN_CREATED_TIME + " text)"
+        );
     }
 
     /*
@@ -343,6 +362,14 @@ public class DatabaseHelper extends SQLiteOpenHelper{
                 TASK_COLUMN_PERCENT, TASK_COLUMN_DONE};
         String[] args = {""+id};
         return db.query(TASK_TABLE_NAME, columns, TASK_COLUMN_ID + " = ?", args,
+                null, null, null);
+    }
+
+    public Cursor getNoteById(long id) {
+        SQLiteDatabase db = getReadableDatabase();
+        String[] columns = {NOTEBOOK_COLUMN_ID,NOTEBOOK_COLUMN_TITLE,NOTEBOOK_COLUMN_DESCRIPTION};
+        String[] args = {""+id};
+        return db.query(NOTEBOOK_TABLE_NAME, columns, TASK_COLUMN_ID + " = ?", args,
                 null, null, null);
     }
 }

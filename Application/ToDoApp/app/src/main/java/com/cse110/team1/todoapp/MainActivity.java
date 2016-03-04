@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity{
                 return true;
 
             case R.id.action_new_task:
-                if (adapter.getPosition() == 1){
+                if (pager.getCurrentItem() == 0){
                     createTask();
                 }else{
                     createNote();

@@ -47,19 +47,18 @@ public class NotesFragment extends Fragment {
     }
 
     public void populateNoteList() {
-//        Cursor cursor = dbHelper.fetchAllTasks();
+   //     Cursor cursor = dbHelper.fetchAllTasks();
 //        Cursor cursor = dbHelper.fetchAllTasksByProgress();
-        Cursor cursor = dbHelper.fetchAllTasksByDateThenProgress();
+        Cursor cursor = dbHelper.fetchAllNotes();
+        //Cursor cursor1 = dbHelper.getNoteById(1);
 
         // columns used to populate list view elements
-        String[] columns = {DatabaseHelper.TASK_COLUMN_NAME,
-                DatabaseHelper.TASK_COLUMN_DETAILS,
-                DatabaseHelper.TASK_COLUMN_PERCENT};
+        String[] columns = {DatabaseHelper.NOTEBOOK_COLUMN_TITLE,
+                DatabaseHelper.NOTEBOOK_COLUMN_DESCRIPTION};
 
         // xml components to bind data to
         int[] components = {R.id.description_view,
-                R.id.detail_view,
-                R.id.task_progress_bar};
+                R.id.detail_view};
 
         // create cursor adapter to populate view elements and pass to the list view
         SimpleCursorAdapter cadapter = new SimpleCursorAdapter(getActivity(), R.layout.task_list_info,
