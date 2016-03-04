@@ -197,7 +197,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         Cursor cursor = dbHelper.rawQuery(selectQuery, null);
         if(cursor.moveToFirst()){
             do{
-                boolean value = (cursor.getInt(Integer.parseInt(TASK_COLUMN_DONE)) == 1);
+                boolean value = (cursor.getInt(10) == 1);
                 if(value) doneCount++;
             }while(cursor.moveToNext());
         }

@@ -30,7 +30,7 @@ public class PerformanceFragment extends Fragment {
         dbHelper = new DatabaseHelper(getActivity());
         //dbHelper.getDatabaseCount();
         taskCount = dbHelper.getTaskCount();
-        //doneCount = dbHelper.getDoneCount();
+        doneCount = dbHelper.getDoneCount();
         //overdueCount = dbHelper.getOverdueCount();
         //Added graph to performance tab. Wayne Combs 2.21.16
         int[] taskPercentage = new int[taskCount];
@@ -56,7 +56,7 @@ public class PerformanceFragment extends Fragment {
     private DataPoint[] generateData(){
         DataPoint[] values = new DataPoint[taskCount];
         for(int i=0; i<taskCount; i++){
-            DataPoint v = new DataPoint (i+1, taskCount*i);
+            DataPoint v = new DataPoint (i+1, doneCount);
             values[i] = v;
         }
         return values;
