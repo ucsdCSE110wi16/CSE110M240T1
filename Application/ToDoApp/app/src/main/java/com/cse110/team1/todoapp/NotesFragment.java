@@ -61,7 +61,7 @@ public class NotesFragment extends Fragment {
                 R.id.detail_view};
 
         // create cursor adapter to populate view elements and pass to the list view
-        SimpleCursorAdapter cadapter = new SimpleCursorAdapter(getActivity(), R.layout.task_list_info,
+        SimpleCursorAdapter cadapter = new SimpleCursorAdapter(getActivity(), R.layout.note_list_info,
                 cursor, columns, components, 0);
         // assign custom ViewBinder to handle binding to non TextBox views.
         cadapter.setViewBinder(new TaskViewBinder());
@@ -91,24 +91,17 @@ public class NotesFragment extends Fragment {
 
     public void onTaskSelected(long id) {
         String name = "";
-        Cursor cursor = dbHelper.getTaskById(id);
+        Cursor cursor = dbHelper.getNoteById(id);
         if (cursor != null) {
             if (cursor.moveToFirst()) {
-                name = cursor.getString(cursor.getColumnIndex(DatabaseHelper.TASK_COLUMN_NAME));
-                String details = cursor.getString(cursor.getColumnIndex(DatabaseHelper.TASK_COLUMN_DETAILS));
-                int progress = Integer.parseInt(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TASK_COLUMN_PERCENT)));
-                int day = Integer.parseInt(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TASK_COLUMN_DUE_DAY)));
-                int month = Integer.parseInt(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TASK_COLUMN_DUE_MONTH)));
-                int year = Integer.parseInt(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TASK_COLUMN_DUE_YEAR)));
+                name = cursor.getString(cursor.getColumnIndex(DatabaseHelper.NOTEBOOK_COLUMN_TITLE));
+                String details = cursor.getString(cursor.getColumnIndex(DatabaseHelper.NOTEBOOK_COLUMN_DESCRIPTION));
 
-                Intent intent = new Intent(getActivity(), UpdateTaskActivity.class);
-                intent.putExtra(DatabaseHelper.TASK_COLUMN_ID, Integer.parseInt(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TASK_COLUMN_ID))));
-                intent.putExtra(DatabaseHelper.TASK_COLUMN_NAME, name);
-                intent.putExtra(DatabaseHelper.TASK_COLUMN_DETAILS, details);
-                intent.putExtra(DatabaseHelper.TASK_COLUMN_PERCENT, progress);
-                intent.putExtra(DatabaseHelper.TASK_COLUMN_DUE_DAY, day);
-                intent.putExtra(DatabaseHelper.TASK_COLUMN_DUE_MONTH, month);
-                intent.putExtra(DatabaseHelper.TASK_COLUMN_DUE_YEAR, year);
+                Intent intent = new Intent(getActivity(), UpdateNoteActivity.class);
+                intent.putExtra(DatabaseHelper.NOTEBOOK_COLUMN_ID, Integer.parseInt(cursor.getString(cursor.getColumnIndex(DatabaseHelper.NOTEBOOK_COLUMN_ID))));
+                intent.putExtra(DatabaseHelper.NOTEBOOK_COLUMN_TITLE, name);
+                intent.putExtra(DatabaseHelper.NOTEBOOK_COLUMN_DESCRIPTION, details);
+
                 getActivity().startActivity(intent);
             }
         }
