@@ -42,12 +42,21 @@
 
         <activity
             android:name=".UpdateTaskActivity"
-            android:label="@string/title_activity_update_task"
+            android:label="Update Task"
             android:theme="@style/AppTheme"
             android:parentActivityName=".MainActivity">
              <meta-data
               android:name="android.support.PARENT_ACTIVITY"
               android:value=".MainActivity" />
+        </activity>
+        <activity
+            android:name=".UpdateNoteActivity"
+            android:label="Update Note"
+            android:theme="@style/AppTheme"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
         </activity>
     </application>
 

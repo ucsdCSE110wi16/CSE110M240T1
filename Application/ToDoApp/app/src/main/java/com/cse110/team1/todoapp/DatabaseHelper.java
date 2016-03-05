@@ -113,12 +113,12 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         ContentValues contentValues = new ContentValues();
         contentValues.put(NOTEBOOK_COLUMN_TITLE, title);
         contentValues.put(NOTEBOOK_COLUMN_DESCRIPTION, desc);
-        contentValues.put(NOTEBOOK_COLUMN_CREATED_TIME, created);
         long returnId = db.update(NOTEBOOK_TABLE_NAME, contentValues, NOTEBOOK_COLUMN_ID + " = " + noteId, null);
         boolean isSuccessful = true;
         if(returnId == -1)
             isSuccessful = false;
         return isSuccessful;
+
     }
 
     public boolean deleteNote(long noteID){

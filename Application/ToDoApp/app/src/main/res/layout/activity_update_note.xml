@@ -5,10 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.cse110.team1.todoapp.NewNoteActivity">
+    tools:context="com.cse110.team1.todoapp.UpdateTaskActivity">
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/new_note_toolbar"
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
@@ -18,7 +18,8 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fillViewport="false">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -32,26 +33,26 @@
                 android:id="@+id/note_field"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:hint="Note Title"
                 android:inputType="textCapSentences"
-                android:textColor="#8a8a8a"
-                android:hint="Note Name"
-                android:text="Note Name" />
+                android:textColor="@color/new_task_text" />
 
             <EditText
                 android:id="@+id/detail_field"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="top"
+                android:hint="Note Detail"
                 android:lines="3"
-                android:textColor="#8a8a8a"
-                android:hint="Enter Note Details Here"
-                android:text="Enter Note Details Here" />
+                android:textColor="@color/new_task_text" />
+
+
 
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:onClick="saveNote"
-                android:text="SAVE NOTE" />
+                android:onClick="updateNote"
+                android:text="@string/save_task_button" />
 
             <Button
                 android:layout_width="match_parent"
