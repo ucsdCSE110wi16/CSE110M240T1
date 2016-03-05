@@ -35,7 +35,7 @@
                 android:inputType="textCapSentences"
                 android:textColor="#8a8a8a"
                 android:hint="Note Name"
-                android:text="Note Name" />
+                />
 
             <EditText
                 android:id="@+id/detail_field"
@@ -45,7 +45,7 @@
                 android:lines="3"
                 android:textColor="#8a8a8a"
                 android:hint="Enter Note Details Here"
-                android:text="Enter Note Details Here" />
+                />
 
             <Button
                 android:layout_width="match_parent"
