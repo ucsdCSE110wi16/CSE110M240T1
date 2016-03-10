@@ -241,9 +241,9 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         String value = "";
         if(cursor.moveToFirst()){
             do{
-                value = value + (cursor.getString(5));
-                value = value + (cursor.getString(6));
-                value = value + (cursor.getString(7));
+                value = value + Integer.toString((cursor.getInt(5)));
+                value = value + Integer.toString((cursor.getInt(6)));
+                value = value + Integer.toString((cursor.getInt(7)));
                 if(date.compareTo(value) == -1) OverDueCount++;
                 value = "";
             }while(cursor.moveToNext());

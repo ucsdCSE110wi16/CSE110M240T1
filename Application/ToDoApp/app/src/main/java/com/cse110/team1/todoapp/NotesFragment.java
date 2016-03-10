@@ -81,7 +81,7 @@ public class NotesFragment extends Fragment {
 
 
         // Get rid of text box in background if list gets populated, or re-add if list gets deleted
-        TextView tv = (TextView) getActivity().findViewById(R.id.task_fragment_text_view);
+        TextView tv = (TextView) getActivity().findViewById(R.id.note_fragment_text_view);
 
         if (cursor.getCount() > 0)
             tv.setVisibility(View.INVISIBLE);
