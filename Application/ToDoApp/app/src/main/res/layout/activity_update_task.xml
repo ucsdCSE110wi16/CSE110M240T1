@@ -57,6 +57,7 @@ tools:context="com.cse110.team1.todoapp.UpdateTaskActivity">
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/progress_meter_text"
+                android:id="@id/progessBar"
                 android:textSize="@dimen/new_task_font_size" />
 
             <SeekBar
