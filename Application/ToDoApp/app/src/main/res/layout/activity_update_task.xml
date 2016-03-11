@@ -98,6 +98,7 @@ tools:context="com.cse110.team1.todoapp.UpdateTaskActivity">
             android:text="@string/save_task_button" />
 
         <Button
+            android:id="@+id/deleteTaskButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Delete"

@@ -3,6 +3,7 @@ package com.cse110.team1.todoapp;
 import android.app.Instrumentation;
 import android.app.Instrumentation.ActivityMonitor;
 import android.content.Intent;
+import android.support.test.espresso.Espresso;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.util.Log;
@@ -11,7 +12,13 @@ import static android.app.PendingIntent.getActivity;
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.pressBack;
+import static android.support.test.espresso.action.ViewActions.swipeLeft;
+import static android.support.test.espresso.action.ViewActions.swipeRight;
+import static android.support.test.espresso.action.ViewActions.swipeUp;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
 import static android.support.test.espresso.matcher.ViewMatchers.withHint;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
@@ -24,6 +31,7 @@ import org.junit.runner.RunWith;
 @RunWith(AndroidJUnit4.class)
 /**
  * Created by khaledahmad on 3/9/16.
+ * THIS IS ACTUALLY ALL OUR TESTS
  */
 public class ClickAddTaskTest {
     @Rule
@@ -74,8 +82,27 @@ public class ClickAddTaskTest {
         onView(withId(R.id.tabs)).perform(click());
         onView(withId(R.id.note_list_view_frag)).perform(click());
 
+    }
+
+    @Test
+    public void clickUpdateTaskAndCheckDeleteButton(){
+        ActivityMonitor activityMonitor = getInstrumentation().addMonitor(MainActivity.class.getName(),null, false);
+        onView(withId(R.id.task_list_view_frag)).perform(click());
+        onView(withId(R.id.deleteTaskButton)).check(matches(withText("Delete")));
 
     }
 
+    @Test
+    public void checkTabsSwipable(){
+        swipeLeft();
+        swipeLeft();
+        swipeRight();
+        swipeLeft();
+        swipeRight();
+        swipeLeft();
+        swipeRight();
+        onView(withText("Notes")).check(matches(isDisplayed()));
+
+    }
 
 }

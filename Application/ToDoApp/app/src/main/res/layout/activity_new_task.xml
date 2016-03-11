@@ -93,6 +93,7 @@
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:id="@+id/saveTaskButton"
                 android:onClick="saveTask"
                 android:text="@string/save_task_button" />
 
