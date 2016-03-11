@@ -69,6 +69,13 @@ public class ClickAddTaskTest {
     }
 
     @Test
+    public void makeSureTabsAreVisible(){
+        onView(withText("Tasks")).check(matches(isDisplayed()));
+        onView(withText("Notes")).check(matches(isDisplayed()));
+        onView(withText("Performance")).check(matches(isDisplayed()));
+    }
+
+    @Test
     public void clickOnTask(){
         ActivityMonitor activityMonitor = getInstrumentation().addMonitor(MainActivity.class.getName(),null, false);
         onView(withId(R.id.task_list_view_frag)).perform(click());
@@ -102,7 +109,8 @@ public class ClickAddTaskTest {
         swipeLeft();
         swipeRight();
         onView(withText("Notes")).check(matches(isDisplayed()));
-
     }
+
+
 
 }
